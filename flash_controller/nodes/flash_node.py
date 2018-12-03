@@ -48,7 +48,7 @@ class CamStreamer(Thread):
                 self.pub_image.publish(BRIDGE.cv2_to_imgmsg(frame, encoding = "rgb8"))
 
 
-class FlashNode(RosNode):
+class FlashNode:
     """ ROS Node to control the flash robot. """
 
         
@@ -60,7 +60,7 @@ class FlashNode(RosNode):
         self.name = self.__class__.__name__
         rospy.init_node(self.name)
 
-        self.sub_cmd_vel   = rospy.Subscriber('/flash_robot/cmd_vel',     Twist,     self.cmdVelCallback, (self, ))
+        self.sub_cmd_vel   = rospy.Subscriber('/flash_robot/cmd_vel',     Twist,     self.cmdVelCallback)
         self.pub_battery   = rospy.Publisher('/flash_robot/battery',      Float32,   queue_size = 1)
         self.pub_laser     = rospy.Publisher('/flash_robot/laser_scan',   LaserScan, queue_size = 1)
         self.pub_image     = rospy.Publisher('/flash_robot/cam',          Image,     queue_size = 1)
@@ -70,27 +70,20 @@ class FlashNode(RosNode):
 
         # start camera stream
         self._stop_flag    = Event()
-        self.cam_stream    = CamStreamer(self._stop_flag)
+        self.cam_stream    = CamStreamer(self._stop_flag, self.pub_image)
         self.cam_stream.start()
 
         self.cmd_vel_ts    = time.time()
         self.cmd_vel_flag  = False
 
 
-    def cmdVelCallback(self):
-
-        if not hasattr(self, 'flash'):
-            return
-        
-        if self.sub_cmd_vel.message_list:
-            cmd_vel  = self.sub_cmd_vel.message_list[0]
-            
-            print(cmd_vel)
-            self.cmd_vel_ts   = time.time()
-            self.cmd_vel_flag = True
-            cmd               = "robot.body.x.speed = %i & robot.body.yaw.speed = %i" % (x_speed, yaw_speed)
-            print('cmd_vel', cmd)
-            self.flash.uw.send(cmd)
+    def cmdVelCallback(self, msg):
+        print(msg)
+        self.cmd_vel_ts   = time.time()
+        self.cmd_vel_flag = True
+        cmd               = "robot.body.x.speed = %i & robot.body.yaw.speed = %i" % (msg.linear.x, msg.angular.z)
+        self.flash.uw.send(cmd)
+        print('cmd_vel', cmd)
 
 
     def update(self):
@@ -138,7 +131,7 @@ if __name__ == '__main__':
     ros_rate  = rospy.Rate(ros_node.PUBLISHER_RATE)
 
     try:
-        ros_node.logdebug(ros_node.name + " started")
+        print(ros_node.name + " started")
         while not rospy.is_shutdown():
             ros_node.update()
             ros_rate.sleep()
