@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <name>flash_bringup</name>
+  <version>0.0.1</version>
+  <description>Launch files to upload the robot description and start the controllers</description>
+  <maintainer email="i.keller@hw.ac.uk">Ingo Keller</maintainer>
+  <license>BSD</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>tf_lookup</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>joy</run_depend>
+  <run_depend>joy_teleop</run_depend>
+  <run_depend>head_action</run_depend>
+</package>

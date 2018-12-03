@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+
+  <name>flash_description</name>
+  <version>0.0.1</version>
+  <description>This package contains the description (mechanical, kinematic, visual,
+      etc.) of the FLASH robot.  The files in this package are parsed and used by
+      a variety of other components.  Most users will not interact directly
+      with this package.</description>
+  <maintainer email="i.keller@hw.ac.uk">Ingo Keller</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>xacro</run_depend>
+
+</package>
