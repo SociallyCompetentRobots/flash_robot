@@ -7,13 +7,13 @@ import cv2
 
 import rospy
 
-from cv_bridge          import CvBridge, CvBridgeError
-from geometry_msgs.msg  import Twist
-from std_msgs.msg       import Float32, Int16MultiArray
-from sensor_msgs.msg    import Image, LaserScan
+from cv_bridge              import CvBridge, CvBridgeError
+from geometry_msgs.msg      import Twist
+from std_msgs.msg           import Float32, Int16MultiArray
+from sensor_msgs.msg        import Image, LaserScan
 
 
-from flash.flash        import Flash
+from flash_controller.flash import Flash
 
 
 BRIDGE = CvBridge()
