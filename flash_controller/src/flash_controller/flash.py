@@ -1,6 +1,6 @@
 import time
 
-from flash.urbi_wrapper import UrbiWrapper
+from flash_controller.urbi_wrapper import UrbiWrapper
 
 
 class Flash:
