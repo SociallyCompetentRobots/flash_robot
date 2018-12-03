@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <!-- joy node -->
+    <node respawn = "true" 
+          pkg     = "joy" 
+          type    = "joy_node"
+          name    = "flash_joy" >
+        <param  name  = "dev" 
+                type  = "string"
+                value = "/dev/input/js0" />
+    </node>
+
+    <!-- load joystick settings -->
+    <rosparam command = "load" 
+              file    = "$(find flash_bringup)/config/joystick_config.yaml" />
+
+    <!-- joy teleop -->
+    <node pkg     = "joy_teleop" 
+          type    = "joy_teleop.py" 
+          name    = "joy_teleop" />
+    
+    <!-- FLASH node -->
+    <node pkg     = "flash_controller" 
+          type    = "flash_node.py"
+          name    = "flash_node"
+          output  = "screen" />
+
+</launch>
