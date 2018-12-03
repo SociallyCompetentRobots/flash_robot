@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from threading import Thread, Event
+import time
 
 import cv2
 
@@ -15,8 +16,7 @@ from sensor_msgs.msg    import Image, LaserScan
 from flash.flash        import Flash
 
 
-fps_time    = 0
-bridge      = CvBridge()
+BRIDGE = CvBridge()
 
 
 class CamStreamer(Thread):
@@ -45,7 +45,7 @@ class CamStreamer(Thread):
         while self.cam.isOpened() and not self.stopped.wait(1.0 / CamStreamer.FPS):
             ret, frame = self.cam.read()
             if ret:
-                self.pub_image.publish(bridge.cv2_to_imgmsg(frame, encoding = "rgb8"))
+                self.pub_image.publish(BRIDGE.cv2_to_imgmsg(frame, encoding = "rgb8"))
 
 
 class FlashNode(RosNode):
@@ -73,16 +73,24 @@ class FlashNode(RosNode):
         self.cam_stream    = CamStreamer(self._stop_flag)
         self.cam_stream.start()
 
+        self.cmd_vel_ts    = time.time()
+        self.cmd_vel_flag  = False
+
 
     def cmdVelCallback(self):
-        
+
         if not hasattr(self, 'flash'):
             return
         
         if self.sub_cmd_vel.message_list:
             cmd_vel  = self.sub_cmd_vel.message_list[0]
+            
             print(cmd_vel)
-#            self.flash.translateAndRotate(0.1, cmd_vel.linear.x, cmd_vel.angular.z)
+            self.cmd_vel_ts   = time.time()
+            self.cmd_vel_flag = True
+            cmd               = "robot.body.x.speed = %i & robot.body.yaw.speed = %i" % (x_speed, yaw_speed)
+            print('cmd_vel', cmd)
+            self.flash.uw.send(cmd)
 
 
     def update(self):
@@ -90,6 +98,11 @@ class FlashNode(RosNode):
         # update the battery status
         self.pub_battery.publish(Float32(self.flash.batteryVoltage))
         self.pub_laser.publish(FlashNode.laser2Msg(self.flash.laserValues))
+
+        if self.cmd_vel_flag and (self.cmd_vel_ts - time.time()) > 0.1:
+            self.flash.uw.send("robot.body.x.speed = 0 & robot.body.yaw.speed = 0")
+            self.cmd_vel_flag = False
+            print ("Robot stopped")
 
 
     @staticmethod
