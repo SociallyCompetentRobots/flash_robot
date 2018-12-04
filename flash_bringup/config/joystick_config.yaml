@@ -13,3 +13,28 @@ teleop:
         axis: 0
         target: angular.z
         scale: 20.0
+  behave:
+    type: topic
+    message_type: std_msgs/Int16
+    topic_name: flash_robot/behave
+    buttons: [0]
+    message_value:
+      -
+        target: data
+        value: 1    
+    buttons: [1]
+    message_value:
+      -
+        target: data
+        value: 2    
+    buttons: [2]
+    message_value:
+      -
+        target: data
+        value: 3    
+    buttons: [3]
+    message_value:
+      -
+        target: data
+        value: 4    
+        

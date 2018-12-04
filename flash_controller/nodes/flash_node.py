@@ -9,7 +9,7 @@ import rospy
 
 from cv_bridge              import CvBridge, CvBridgeError
 from geometry_msgs.msg      import Twist
-from std_msgs.msg           import Float32, Int16MultiArray
+from std_msgs.msg           import Float32, Int16MultiArray, Int16
 from sensor_msgs.msg        import Image, LaserScan
 
 
@@ -61,6 +61,7 @@ class FlashNode:
         rospy.init_node(self.name)
 
         self.sub_cmd_vel   = rospy.Subscriber('/flash_robot/cmd_vel',     Twist,     self.cmdVelCallback)
+        self.sub_behave    = rospy.Subscriber('/flash_robot/behave',      Int16,     self.behaveCallback)
         self.pub_battery   = rospy.Publisher('/flash_robot/battery',      Float32,   queue_size = 1)
         self.pub_laser     = rospy.Publisher('/flash_robot/laser_scan',   LaserScan, queue_size = 1)
         self.pub_image     = rospy.Publisher('/flash_robot/cam',          Image,     queue_size = 1)
@@ -78,12 +79,29 @@ class FlashNode:
 
 
     def cmdVelCallback(self, msg):
-        print(msg)
         self.cmd_vel_ts   = time.time()
         self.cmd_vel_flag = True
         cmd               = "robot.body.x.speed = %i & robot.body.yaw.speed = %i" % (msg.linear.x, msg.angular.z)
         self.flash.uw.send(cmd)
         print('cmd_vel', cmd)
+
+
+    def behaveCallback(self, msg):
+        if msg.data == 1:
+            self.flash.say('Hello. My name is Alyx. Nice to meet you. Welcome to the HRI Laboratory.')
+            self.flash.say('You might have noticed that I have a very expressive face.')
+            self.flash.say('I can get angry.')
+            self.flash.exp('Angry')
+            self.flash.say('I can show disgust.')
+            self.flash.exp('Disgust')
+            self.flash.say('Also, I can be sad.')
+            self.flash.exp('Sad')
+            self.flash.say('or be surprised.')
+            self.flash.exp('Surprise')
+            self.flash.say('and sometimes I am afraid')
+            self.flash.exp('Fear')
+            self.flash.say('If I am bored I can get very sleepy')
+            self.flash.exp('Yawn')
 
 
     def update(self):
