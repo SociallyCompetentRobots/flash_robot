@@ -20,24 +20,10 @@ class UrbiWrapper:
     the singleton pattern implementation. But this might complicate the implementation of the users
     of this class.
     """
-    HOST = '10.0.0.195'
-    PORT = 54000
-    ################################################################################################
-    # Singleton Pattern Implementation: Start
-    ################################################################################################
-    __instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if UrbiWrapper.__instance is None:
-            UrbiWrapper.__instance = super(UrbiWrapper, cls).__new__(cls)
-        return UrbiWrapper.__instance
-
-    ################################################################################################
-    # Singleton Pattern Implementation: End
-    ################################################################################################
-
+    HOST  = '10.0.0.195'
+    PORT  = 54000
     SLEEP = 0.05
-    WAIT  = 1.0
+    WAIT  = 0.05
     
     HEADER = """*** ********************************************************
 *** Urbi version 2.7.5 patch 0 revision 846b3de
@@ -60,12 +46,24 @@ class UrbiWrapper:
         self.tn.open(self.HOST, self.PORT)
 
         # read the header and check that we are connected to the right thing.
-        header, _ = self.read_all(2.0)
+        header, _ = self.read_all(1.0)
         header    = header.decode('ascii')
 #         print(header)
 #         if header is not UrbiWrapper.HEADER:
 #             raise RuntimeError('Retrieved URBI header is not correct got\n[%s]\n instead of\n[%s]' % (header, UrbiWrapper.HEADER))
         
+    
+    @property
+    def isConnected(self):
+        try:
+            value, _   = self.send('4*9')
+
+            # check if the result from the dummy request fits; otherwise abort
+            if int(value) != 36:
+                LOG.error('Connection to Flash failed with result: %s' % value)
+        except:
+            return False
+        return True
 
 
     def read_line(self, timeout = WAIT):
@@ -132,6 +130,73 @@ class UrbiWrapper:
         
         # read all within a time frame
         result, timestamp = self.read_line(timeout)
+
+        LOG.debug('received: %s' % result)
+        
+        return result, timestamp
+
+
+    def read_line2(self):
+        """ Reads a line from the telnet server. A line is a ended by a newline character.
+
+        If no content was read the method returns an empty content string and the timestamp will be
+        0.
+        
+        @return content, timestamp
+        """
+
+        timestamp = 0
+        content   = ''
+
+        # read until new line character
+        line = self.tn.read_until()
+
+        # get rid of the new line character
+        line = line[:-1]
+
+        if line:
+
+            # split
+            line = line.split(b' ')
+
+            # get timestamp
+            try:
+                timestamp   = int(line[0][1:-1])
+            except ValueError:
+                raise ValueError('malformed timestamp in line [%s]' % (b' '.join(line)))
+
+            # merge the rest into content
+            content     = b' '.join(line[1:])
+        print (content)
+        return content, timestamp
+
+
+    def read_all2(self):
+        """ Reads the output from a telnet server until there is no more for a timeout period."""
+        result          = []
+        line, timestamp = self.read_line()
+        while line:
+            result.append(line)
+            line, _ = self.read_line()
+            print ('nl')
+        return b'\n'.join(result), timestamp
+
+
+    def send2(self, cmd):
+        """ Sends a URBI command to the server. 
+        
+        @param: cmd - 
+        """
+        
+        # sanitize the command
+        cmd = cmd + ';' if cmd[-1] is not ';' else cmd
+        LOG.debug('send: [' + str(cmd) + ']')
+
+        # encode as ASCII
+        self.tn.write(cmd.encode('ascii'))
+
+        # read all within a time frame
+        result, timestamp = self.read_all2()
 
         LOG.debug('received: %s' % result)
         
