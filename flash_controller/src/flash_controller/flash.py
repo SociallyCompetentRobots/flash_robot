@@ -1,6 +1,8 @@
 import time
 
-from flash_controller.urbi_wrapper import UrbiWrapper
+from flash_controller.urbi_wrapper  import UrbiWrapper
+from flash_controller.battery       import Battery
+from flash_controller.laser         import Laser
 
 
 class Flash:
@@ -15,13 +17,14 @@ class Flash:
     
     def __init__(self):
         """ Creates an Flash API object and connects to the robot. """
-        self.uw     = UrbiWrapper()
-        value, _   = self.uw.send('4*9')
+        self.uw = UrbiWrapper()
 
         # check if the result from the dummy request fits; otherwise abort
-        if int(value) != 36:
-            self.uw = None
-            raise RuntimeError('Connection to Flash failed with result: %s' % value)
+        if not self.uw.isConnected:
+            raise RuntimeError('Connection to Flash failed.')
+
+        self.battery = Battery()
+        self.laser   = Laser()
 
 
     def say(self, text, duration = 2):
@@ -118,21 +121,9 @@ class Flash:
         time.sleep(duration)
         self.stop()
 
+
     def backgroundBehavior(self, behavior, duration = 3, intensity = 8):
         self.uw.send("robot.body.neck.head.Act%s(%s, %s)" % (behavior, intensity, duration))
-
-
-    @property
-    def batteryVoltage(self):
-        return float(self.uw.send("robot.body.battery.voltage")[0])
-
-
-    @property
-    def laserValues(self):
-        reading, ts = self.uw.send("robot.body.laser.val")
-        return eval(reading), ts
-
-
 
 
     def __del__(self):
