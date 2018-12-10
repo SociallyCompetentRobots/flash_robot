@@ -7,8 +7,8 @@ class Joint(object):
     def __init__(self, urbi_wrapper, name, pos_min, pos_max, raw_zero):
         self.name       = name
         self.uw         = urbi_wrapper
-        self.raw_max    = float(self.uw.send(self.name + '.val->rangemax')[0])
-        self.raw_min    = float(self.uw.send(self.name + '.val->rangemin')[0])
+        self.raw_max    = float(self.uw.send(self.name + '.val->rangemax')[0]) - 1.0
+        self.raw_min    = float(self.uw.send(self.name + '.val->rangemin')[0]) + 1.0
         self.raw_zero   = raw_zero
         self.pos_min    = pos_min
         self.pos_max    = pos_max
@@ -17,6 +17,10 @@ class Joint(object):
     def clipPositionLimits(self, position):
         return max(min(self.pos_max, position), self.pos_min)
 
+
+    def clipRawLimits(self, value):
+        return max(min(self.raw_max, value), self.raw_min)
+        
     
     @property
     def val(self):        
@@ -26,7 +30,7 @@ class Joint(object):
     @property
     def pos(self):        
         """ """
-        return float(self.uw.send(self.name + '.val')[0]) - self.raw_zero
+        return self.val - self.raw_zero
     
     @pos.setter
     def pos(self, value):
@@ -45,4 +49,4 @@ class Joint(object):
 
 
     def __str__(self):
-        return "%s\t[%.3f, %.3f]\t%.3f" % (self.name, self.pos_min, self.pos_max, self.pos)
+        return "%s\t[%.3f, %.3f, %.3f]\t[%.3f, %.3f]\t%.3f" % (self.name, self.raw_min, self.raw_zero, self.raw_max, self.pos_min, self.pos_max, self.pos)

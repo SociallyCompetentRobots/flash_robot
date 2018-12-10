@@ -37,10 +37,10 @@ class HeadNode:
     def cmdVelCallback(self, msg):
         j_yaw     = self.head.head_yaw
         j_pitch   = self.head.neck_pitch
-        pos_yaw   = j_yaw.clipPositionLimits(j_yaw.pos + msg.angular.y)
-        pos_pitch = j_yaw.clipPositionLimits(j_yaw.pos + msg.angular.z)
-        cmd       = "%s = %.2f &" % (j_yaw.name,   pos_yaw)
-        cmd      += "%s = %.2f"   % (j_pitch.name, pos_pitch)
+        pos_yaw   = j_yaw.clipRawLimits(j_yaw.value + msg.angular.y)
+        pos_pitch = j_yaw.clipRawLimits(j_yaw.value + msg.angular.z)
+        cmd       = "%s.val = %.2f &" % (j_yaw.name,   pos_yaw)
+        cmd      += "%s.val = %.2f"   % (j_pitch.name, pos_pitch)
         self.head.uw.send(cmd)
 
 
