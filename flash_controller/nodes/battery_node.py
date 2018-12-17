@@ -19,7 +19,10 @@ def main():
 
     # keep going till shutdown
     while not rospy.is_shutdown():
-        pub.publish( std_msgs.msg.Float32(battery.voltage))
+        # voltage ranges from 32. to 42.
+        voltage          = battery.voltage
+        percentage_level = (voltage - 32.)*10.
+        pub.publish(std_msgs.msg.Float32(percentage_level))
         ros_rate.sleep()
 
 
