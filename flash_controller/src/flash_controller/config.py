@@ -3,7 +3,7 @@ from flash_controller.urbi_wrapper import UrbiWrapper
 # List of variables from the _CONFIG_.u file. Please consult this file for descriptions of the 
 # configuration variables
 CONFIG_VARS = [
-    '_varRobotStructure',
+    '_RobotStructure',
     '_En_UPlayer',
     '_En_UPlayerNext',
     '_En_URecog',
@@ -136,7 +136,7 @@ class FC:
     """
     
     def __init__(self):
-        self.uw = UrbiWrapper
+        self.uw = UrbiWrapper()
         self.refresh()
 
 
