@@ -16,7 +16,7 @@
               file    = "$(find flash_bringup)/config/joystick_config.yaml" />
 
     <!-- joy teleop -->
-    <node pkg     = "joy_teleop" 
+    <node pkg     = "flash_controller" 
           type    = "joy_teleop.py" 
           name    = "joy_teleop" />
     
