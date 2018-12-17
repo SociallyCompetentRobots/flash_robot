@@ -13,6 +13,20 @@ teleop:
         axis: 0
         target: angular.z
         scale: 20.0
+  look:
+    type: topic
+    message_type: geometry_msgs/Twist
+    topic_name: flash_robot/head/cmd_vel
+    deadman_buttons: [5]
+    axis_mappings:
+      -
+        axis: 4
+        target: angular.z
+        scale: 0.1
+      -
+        axis: 3
+        target: angular.y
+        scale: 0.1
   behave:
     type: topic
     message_type: std_msgs/Int16
