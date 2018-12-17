@@ -1,5 +1,6 @@
 from flash_controller.urbi_wrapper import UrbiWrapper
 
+
 # List of variables from the _CONFIG_.u file. Please consult this file for descriptions of the 
 # configuration variables
 CONFIG_VARS = [
@@ -102,20 +103,20 @@ CONFIG_VARS = [
     '_Hands_RZeroPosition',
     '_Hands_Finger_Ratio',
     '_Hands_Wrist_Ratio',
-    
+
     # ML
     '_En_UKNearestML',
     '_En_UEigenfaces',
-    
+
     # Network
     '_En_UBrowser',
     '_En_UMail',
     '_En_UFacebook',
     '_En_UGCalendar',
     '_En_UTextToolNetwork',
-    
+
     # ... skipping some since they are not relevant right now ...
-    
+
     # APPRAISAL
     '_En_UWordNet',
     '_En_USentiWordNet',
@@ -125,8 +126,7 @@ CONFIG_VARS = [
     '_En_UPAD',
     '_En_UKNearestEmot',
     '_En_UWASABI',
-    '_WASABI_RobotPersonality',
-    
+    '_WASABI_RobotPersonality',   
 ]
 
 
@@ -146,6 +146,6 @@ class FC:
         """
         for var in CONFIG_VARS:
             value = self.uw.send(var)[0]
-            value = value.replace('true', 'True')
-            value = value.replace('false', 'False')
-            setattr(self, var[1:], eval(value))
+            value = value.replace(b'true',  b'True')
+            value = value.replace(b'false', b'False')
+            setattr(self, var, eval(value))
