@@ -25,9 +25,10 @@ def scan2ROS(val):
     scan.angle_min          = -1.2
     scan.angle_max          =  1.2
     scan.angle_increment    = 3.1415 / NUM_READINGS
-    scan.time_increment     = (1 / RATE) / (NUM_READINGS)
+    scan.time_increment     = (1. / RATE) / (NUM_READINGS)
+    scan.scan_time          = 1. / RATE
     scan.range_min          = 0.0
-    scan.range_min          = 5.6
+    scan.range_max          = 5.6
     scan.ranges             = val
     return scan
 
