@@ -5,7 +5,7 @@ import time
 import socket
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.DEBUG)
+LOG.setLevel(logging.INFO)
 
 ch = logging.StreamHandler(sys.stdout)
 ch.setLevel(logging.DEBUG)
@@ -66,23 +66,21 @@ class UrbiWrapper:
         last_line   = ''
 
         while last_line != b'"EOF"':
-            print(last_line)
             data        = self.tn.recv(16*1024)
             for line in data.split(b'\n'):
                 if not line:
                     continue
-                print(line)
-                line = line.split(b' ')
-                    
+                line  = line.split(b' ')
                 
                 # get timestamp
                 try:
-                    timestamp   = int(line[0][1:-1])
+                    error       = b'error' in line[0]
+                    timestamp   = int(line[0][1:-1] if not error else line[0][1:-7])
                 except ValueError:
                     raise ValueError('malformed timestamp in line [%s]' % (b' '.join(line)))
     
-                # merge the rest into content
-                last_line = b' '.join(line[1:])
+                # merge the rest into content                
+                last_line = b' '.join(line[1:]) if not error else b'error'
                 result.append(last_line)
 
         return b'\n'.join(result[:-1]), timestamp
