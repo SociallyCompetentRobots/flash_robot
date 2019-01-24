@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <param name="robot_description" command="xacro --inorder '$(find flash_description)/urdf/flash_model.urdf.xacro'"/>
+  
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="rob_st_pub"/>
+
+  <node pkg="flash_controller" type="laser_node.py" name="laser_node" output="screen"/>
+  
+  <include file="$(find flash_odom)/launch/flash_odom.launch"/>
+  
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    <remap from="scan"          to="/flash_robot/laser_scan"/>
+    <param name="x_min"    value="-5"/>
+    <param name="y_min"    value="-5"/>
+    <param name="x_max"    value="5"/>
+    <param name="y_max"    value="5"/>
+    <param name="delta"    value="0.05"/>
+    <param name="maxUrange"    value="4"/>
+    <param name="maxRange"    value="4"/>
+    <param name="base_frame"    value="base_footprint"/>
+    <param name="odom_frame"    value="odom"/>
+    <param name="use_sim_time"  value="false"/>
+  </node>
+  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find flash_2dnav)/config/rviz/mapping.rviz"/>
+
+</launch>

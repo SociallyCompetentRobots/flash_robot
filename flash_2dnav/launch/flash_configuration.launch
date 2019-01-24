@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <param name="robot_description" command="xacro --inorder '$(find flash_description)/urdf/flash_model.urdf.xacro'"/>
+  
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="rob_st_pub">
+    <!--remap from="robot_description" to="different_robot_description"/-->
+    <!--remap from="joint_states" to="different_joint_states"/-->
+  </node>
+
+  <node pkg="flash_controller" type="laser_node.py" name="laser_node" output="screen">
+    <!--param name="sensor_param" value="param_value" /-->
+  </node>
+
+  <node pkg="flash_controller" type="flash_node.py" name="flash_node" output="screen">
+    <!--param name="sensor_param" value="param_value" /-->
+  </node>
+  
+  <include file="$(find flash_odom)/launch/flash_odom.launch"/>
+  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find flash_2dnav)/config/rviz/navigation.rviz"/>
+
+</launch>

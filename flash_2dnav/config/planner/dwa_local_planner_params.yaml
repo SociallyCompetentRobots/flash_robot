@@ -1,0 +1,13 @@
+DWAPlannerROS:
+  max_trans_vel: 200.0
+  min_trans_vel: 0.0
+  max_vel_x: 200.0
+  min_vel_x: 0.0
+  max_vel_y: 0.0 # This is actually N/A
+  min_vel_y: 0.0 # This is actually N/A
+  max_rot_vel: 20.0
+  min_rot_vel: 10.0
+
+  acc_lim_th: 10.0
+  acc_lim_x: 50.0
+  acc_lim_y: 0.0 # This is actually N/A
