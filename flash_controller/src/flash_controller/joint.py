@@ -19,11 +19,12 @@ class Joint(object):
     def __init__(self, urbi_wrapper, name, pos_min, pos_max, raw_zero):
         self.name       = name
         self.uw         = urbi_wrapper
-        self.raw_max    = float(self.uw.send(self.name + '.val->rangemax')[0]) - 1.0
-        self.raw_min    = float(self.uw.send(self.name + '.val->rangemin')[0]) + 1.0
+        self.raw_max    = float(self.uw.send(self.name + '.val->rangemax')[0])
+        self.raw_min    = float(self.uw.send(self.name + '.val->rangemin')[0])
         self.raw_zero   = raw_zero
         self.pos_min    = pos_min
         self.pos_max    = pos_max
+        self.ratio      = round(abs(self.raw_max - self.raw_min) / abs(self.pos_max - self.pos_min), 1)
     
     
     def clipPosLimits(self, pos):
@@ -63,7 +64,7 @@ class Joint(object):
     @property
     def pos(self):
         """ Returns the position angle. """
-        return self.val - self.raw_zero
+        return (self.raw - self.raw_zero) / self.ratio
 
 
     @pos.setter
@@ -71,7 +72,7 @@ class Joint(object):
         """ Sets the position angle by using the MoveSpeed method which will generate an
             appropriate trajectory.
         """
-        self.uw.send('%s.MoveSpeed(%.4f, 30.0)' % (self.name, self.clipPosLimits(value)))
+        self.uw.send('%s.val = %.4f smooth:2' % (self.name, (self.clipPosLimits(value) * self.ratio) + self.raw_zero))
 
 
     def center(self):
@@ -86,10 +87,11 @@ class Joint(object):
 
 
     def __str__(self):
-        return "%s\t[%.3f, %.3f, %.3f]\t[%.3f, %.3f]\t%.3f" % ( self.name, 
-                                                                self.raw_min, 
-                                                                self.raw_zero, 
-                                                                self.raw_max, 
-                                                                self.pos_min, 
-                                                                self.pos_max, 
-                                                                self.pos )
+        return "%s\t[%.3f, %.3f, %.3f]\t%.3f\t[%.3f, %.3f]\t%.3f" % ( self.name, 
+                                                                      self.raw_min, 
+                                                                      self.raw_zero, 
+                                                                      self.raw_max,
+                                                                      self.ratio, 
+                                                                      self.pos_min, 
+                                                                      self.pos_max, 
+                                                                      self.pos )
