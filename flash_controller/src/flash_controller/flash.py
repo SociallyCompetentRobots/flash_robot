@@ -120,8 +120,6 @@ class Flash:
         else:
             cmd = 'robot.body.neck.head.Behave%s(%s, %s)' % (behavior, intensity, duration)
         self.uw.send(cmd)
-        time.sleep(duration)
-        self.stop()
 
 
     def backgroundBehavior(self, behavior, duration = 3, intensity = 8):
