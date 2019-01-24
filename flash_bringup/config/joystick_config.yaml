@@ -8,11 +8,11 @@ teleop:
       -
         axis: 1
         target: linear.x
-        scale: 200.0
+        scale: 1.0
       -
         axis: 0
         target: angular.z
-        scale: 20.0
+        scale: 1.0
   look:
     type: topic
     message_type: geometry_msgs/Twist

@@ -40,7 +40,7 @@ class FlashNode:
     def cmdVelCallback(self, msg):
         self.cmd_vel_ts   = time.time()
         self.cmd_vel_flag = True
-        cmd               = "robot.body.x.speed = %i & robot.body.yaw.speed = %i" % (msg.linear.x, msg.angular.z)
+        cmd               = "robot.body.x.speed = %i & robot.body.yaw.speed = %i" % (200.*msg.linear.x, 20.*msg.angular.z)
         self.flash.uw.send(cmd)
         print('cmd_vel', cmd)
 
