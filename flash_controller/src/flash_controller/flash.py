@@ -83,8 +83,10 @@ class Flash:
         """ Stops the robot from moving around and brings it in the default position. """
         self.translate(0, 0)
         self.rotate(0, 0)
+        self.uw.send("robot.body.arm.hand.MoveOrientation(2,0,0)")
+        self.uw.send("robot.body.arm.hand.MoveClose(4,2)")
         self.uw.send("robot.body.neck.head.BehaveNormal(2)")
-        self.uw.send("robot.body.arm.MoveCenterDown2(5)")
+        self.uw.send("robot.body.arm.MoveCenterDown(5)")
         time.sleep(7)
 
 
