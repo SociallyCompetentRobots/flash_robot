@@ -261,7 +261,7 @@ class JoyTeleop:
         return self.service_types[service_name]
 
     def update_actions(self, evt=None):
-        for name, cmd in self.command_list.iteritems():
+        for name, cmd in self.command_list.items():
             if cmd['type'] != 'action':
                 continue
             if cmd['action_name'] in self.offline_actions:
