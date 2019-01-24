@@ -9,7 +9,7 @@ from flash_controller.laser import Laser
 # Constants for LaserScan message
 RATE            =  20
 NUM_READINGS    =  133
-FRAME_ID        = "flash_robot_laser_link"
+FRAME_ID        = "base_laser_link"
 
 
 def scan2ROS(val):
@@ -22,14 +22,14 @@ def scan2ROS(val):
     scan                    = sensor_msgs.msg.LaserScan()
     scan.header.stamp       = rospy.Time.now()
     scan.header.frame_id    = FRAME_ID
-    scan.angle_min          = -1.2
+    scan.angle_min          =  -1.2
     scan.angle_max          =  1.2
-    scan.angle_increment    = 3.1415 / NUM_READINGS
+    scan.angle_increment    = 2.4 / NUM_READINGS
     scan.time_increment     = (1. / RATE) / (NUM_READINGS)
-    scan.scan_time          = 1. / RATE
+    scan.scan_time          = 0.1
     scan.range_min          = 0.0
     scan.range_max          = 5.6
-    scan.ranges             = val
+    scan.ranges             = numpy.flip(val)
     return scan
 
 
