@@ -32,7 +32,7 @@ class FC:
         ['neck_pitch',      'robot.body.neck.pitch',                     -20.0,  30.0 ],
         ['head_yaw',        'robot.body.neck.head.yaw',                  -90.0,  90.0 ],
         ['head_pitch',      'robot.body.neck.head.pitch',                 -6.0,  29.0 ],
-        ['disc_low',        'robot.body.neck.head.disc[down]',           -20.0,  30.0 ],
+        ['disc_low',        'robot.body.neck.head.disc[down]',           -16.0,   5.0 ],
         ['disc_high',       'robot.body.neck.head.disc[up]',              -7.0,  15.0 ],
         ['left_eye_lid',    'robot.body.neck.head.eye[left].lid',          0.0, 120.0 ],
         ['left_eye_rot',    'robot.body.neck.head.eye[left].brow',       -45.0,  45.0 ],
@@ -75,8 +75,8 @@ class FC:
         ['l_hand_q8',       'robot.body.arm[left].hand.finger[3][2]',      0.0,  90.0 ],
         ['l_hand_q9',       'robot.body.arm[left].hand.finger[3][3]',    -20.0,  90.0 ],
         ['l_hand_q10',      'robot.body.arm[left].hand.finger[4][1]',      0.0,  90.0 ],
-        ['l_hand_q11',      'robot.body.arm[left].hand.finger[4][2]',    -20.0,  90.0 ],
-        ['l_hand_q12',      'robot.body.arm[left].hand.finger[4][3]',    -20.0,  90.0 ],
+        ['l_hand_q11',      'robot.body.arm[left].hand.finger[4][2]',    -20.0,  20.0 ],
+        ['l_hand_q12',      'robot.body.arm[left].hand.finger[4][3]',      0.0,  90.0 ],
         ['l_arm_q6',        'robot.body.arm[left].hand.yaw',             -30.0,  30.0 ],
         ['l_arm_q7',        'robot.body.arm[left].hand.pitch',           -30.0,  30.0 ],
     ]
@@ -94,8 +94,8 @@ class FC:
         ['r_hand_q8',       'robot.body.arm[right].hand.finger[3][2]',     0.0,  90.0 ],
         ['r_hand_q9',       'robot.body.arm[right].hand.finger[3][3]',   -20.0,  90.0 ],
         ['r_hand_q10',      'robot.body.arm[right].hand.finger[4][1]',     0.0,  90.0 ],
-        ['r_hand_q11',      'robot.body.arm[right].hand.finger[4][2]',   -20.0,  90.0 ],
-        ['r_hand_q12',      'robot.body.arm[right].hand.finger[4][3]',   -20.0,  90.0 ],
+        ['r_hand_q11',      'robot.body.arm[right].hand.finger[4][2]',   -20.0,  20.0 ],
+        ['r_hand_q12',      'robot.body.arm[right].hand.finger[4][3]',     0.0,  90.0 ],
         ['r_arm_q6',        'robot.body.arm[right].hand.yaw',            -30.0,  30.0 ],
         ['r_arm_q7',        'robot.body.arm[right].hand.pitch',          -30.0,  30.0 ],
     ]
@@ -229,5 +229,4 @@ class FC:
         '_En_UWASABI',
         '_WASABI_RobotPersonality',   
     ]
-
 
