@@ -27,12 +27,17 @@ class Flash:
         self.laser   = Laser()
 
 
+    def uploadUrbiScript(self, filename):
+        """ Uploads a UrbiScript """
+        with open(filename, 'r') as f:
+            self.uw.send(f.read())
+
+
     def say(self, text, duration = 2):
         """ Speaks the given text for the given duration. The duration is not yet calculated 
             based on the text.
         """
         self.uw.send('robot.body.neck.head.Say("%s", %i, 0)' % (text, duration))
-        time.sleep(duration)
 
 
     def translate(self, duration, speed = DEF_SPEED_TRANSLATION):
@@ -87,7 +92,6 @@ class Flash:
         self.uw.send("robot.body.arm.hand.MoveClose(4,2)")
         self.uw.send("robot.body.neck.head.BehaveNormal(2)")
         self.uw.send("robot.body.arm.MoveCenterDown(5)")
-        time.sleep(7)
 
 
     def forward(self, duration, speed = DEF_SPEED_TRANSLATION):
