@@ -1,0 +1,11 @@
+# goal definition
+
+string behavior
+int32  duration
+int32  intensity
+---
+# result definition
+
+
+---
+# feedback
