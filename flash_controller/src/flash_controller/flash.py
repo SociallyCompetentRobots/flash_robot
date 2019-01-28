@@ -5,6 +5,16 @@ from flash_controller.battery       import Battery
 from flash_controller.laser         import Laser
 
 
+# stop
+stop_urbi = """ 
+function stop() {
+    robot.body.arm.hand.MoveOrientation(2,0,0) &
+    robot.body.arm.hand.MoveClose(4,2)         &
+    robot.body.neck.head.BehaveNormal(2)       &
+    robot.body.arm.MoveCenterDown(5);            
+};"""
+
+
 class Flash:
     """ The Flash class provides the Python API for the FLASH robot. """
     
@@ -25,6 +35,7 @@ class Flash:
 
         self.battery = Battery()
         self.laser   = Laser()
+        self.uw.send(stop_urbi)
 
 
     def uploadUrbiScript(self, filename):
@@ -88,10 +99,7 @@ class Flash:
         """ Stops the robot from moving around and brings it in the default position. """
         self.translate(0, 0)
         self.rotate(0, 0)
-        self.uw.send("robot.body.arm.hand.MoveOrientation(2,0,0)")
-        self.uw.send("robot.body.arm.hand.MoveClose(4,2)")
-        self.uw.send("robot.body.neck.head.BehaveNormal(2)")
-        self.uw.send("robot.body.arm.MoveCenterDown(5)")
+        self.uw.send("stop;")
 
 
     def forward(self, duration, speed = DEF_SPEED_TRANSLATION):
