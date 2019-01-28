@@ -3,16 +3,8 @@ import time
 from flash_controller.urbi_wrapper  import UrbiWrapper
 from flash_controller.battery       import Battery
 from flash_controller.laser         import Laser
+from flash_controller.flash_urbi    import U_FLASH_INIT
 
-
-# stop
-stop_urbi = """ 
-function stop() {
-    robot.body.arm.hand.MoveOrientation(2,0,0) &
-    robot.body.arm.hand.MoveClose(4,2)         &
-    robot.body.neck.head.BehaveNormal(2)       &
-    robot.body.arm.MoveCenterDown(5);            
-};"""
 
 
 class Flash:
@@ -33,9 +25,12 @@ class Flash:
         if not self.uw.isConnected:
             raise RuntimeError('Connection to Flash failed.')
 
+        # auxiliary URBI scripts
+        self.uw.send(U_FLASH_INIT)
+
+        # battery and laser bring their own connections
         self.battery = Battery()
         self.laser   = Laser()
-        self.uw.send(stop_urbi)
 
 
     def uploadUrbiScript(self, filename):
@@ -97,8 +92,6 @@ class Flash:
 
     def stop(self):
         """ Stops the robot from moving around and brings it in the default position. """
-        self.translate(0, 0)
-        self.rotate(0, 0)
         self.uw.send("stop;")
 
 
