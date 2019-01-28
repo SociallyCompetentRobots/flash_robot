@@ -5,6 +5,6 @@ function stop() {
     robot.body.arm.hand.MoveOrientation(2,0,0) &
     robot.body.arm.hand.MoveClose(4,2)         &
     robot.body.neck.head.BehaveNormal(2)       &
-    robot.body.arm.MoveCenterDown(4);            
+    robot.body.arm.MoveSideDown(4);            
 };
 """
