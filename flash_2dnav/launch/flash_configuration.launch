@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
+  <!-- Robot description -->
   <param name="robot_description" command="xacro --inorder '$(find flash_description)/urdf/flash_model.urdf.xacro'"/>
   
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="rob_st_pub">
-    <!--remap from="robot_description" to="different_robot_description"/-->
-    <!--remap from="joint_states" to="different_joint_states"/-->
-  </node>
+  <!-- State publisher -->
+  <node pkg="robot_state_publisher"
+        name="robot_state_publisher"
+        type="robot_state_publisher"/>
 
-  <node pkg="flash_controller" type="laser_node.py" name="laser_node" output="screen">
-    <!--param name="sensor_param" value="param_value" /-->
-  </node>
+  <!-- Laser node-->
+  <node pkg="flash_controller"
+        name="laser_node"
+        type="laser_node.py"
+        output="screen"/>
 
-  <node pkg="flash_controller" type="flash_node.py" name="flash_node" output="screen">
-    <!--param name="sensor_param" value="param_value" /-->
-  </node>
+  <!-- Robot node -->
+  <node pkg="flash_controller"
+        name="flash_node"
+        type="flash_node.py"
+        output="screen"/>
   
+  <!-- Odometry -->
   <include file="$(find flash_odom)/launch/flash_odom.launch"/>
   
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find flash_2dnav)/config/rviz/navigation.rviz"/>
+  <node pkg="rviz"
+        name="rviz"
+        type="rviz"
+        args="-d $(find flash_2dnav)/config/rviz/navigation.rviz"/>
 
 </launch>

@@ -5,18 +5,33 @@
   <include file="$(find flash_2dnav)/launch/flash_configuration.launch"/>
   
   <!-- Run the map server --> 
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find flash_maps)/config/lab_map.yaml"/>
+  <node pkg="map_server"
+        name="map_server"
+        type="map_server"
+        args="$(find flash_maps)/config/lab_map.yaml"/>
 
   <!--- Run AMCL -->
-  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+  <node pkg="amcl"
+        name="amcl"
+        type="amcl"
+        output="screen">
+        
     <remap from="scan" to="flash_robot/laser_scan"/>
+    
     <rosparam file="$(find flash_2dnav)/config/localization/amcl.yaml" command="load"/>
   </node>
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <node pkg="move_base"
+        name="move_base"
+        type="move_base"
+        respawn="false"
+        output="screen">
+    
     <remap from="cmd_vel" to="flash_robot/cmd_vel"/>
+    
     <param name="controller_frequency"    value="5"/>
-    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+    <param name="base_local_planner"      value="dwa_local_planner/DWAPlannerROS"/>
+    
     <rosparam file="$(find flash_2dnav)/config/planner/common_costmap_params.yaml" command="load" ns="global_costmap"/> 
     <rosparam file="$(find flash_2dnav)/config/planner/common_costmap_params.yaml" command="load" ns="local_costmap"/>
     <rosparam file="$(find flash_2dnav)/config/planner/local_costmap_params.yaml" command="load"/>
