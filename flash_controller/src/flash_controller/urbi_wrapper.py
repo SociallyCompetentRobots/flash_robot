@@ -75,7 +75,8 @@ class UrbiWrapper:
                 # get timestamp
                 try:
                     error       = b'error' in line[0]
-                    timestamp   = int(line[0][1:-1] if not error else line[0][1:-7])
+                    if line[0] == b'[':
+                        timestamp   = int(line[0][1:-1] if not error else line[0][1:-7])
                 except ValueError:
                     raise ValueError('malformed timestamp in line [%s]' % (b' '.join(line)))
     
