@@ -80,7 +80,8 @@ class UrbiWrapper:
                     raise ValueError('malformed timestamp in line [%s]' % (b' '.join(line)))
     
                 # merge the rest into content                
-                last_line = b' '.join(line[1:]) if not error else b'error'
+                last_line  = b'error:' if error else b'' 
+                last_line += b' '.join(line[1:])
                 result.append(last_line)
 
         return b'\n'.join(result[:-1]), timestamp
