@@ -6,7 +6,6 @@ from flash_controller.laser         import Laser
 from flash_controller.flash_urbi    import U_FLASH_INIT
 
 
-
 class Flash:
     """ The Flash class provides the Python API for the FLASH robot. """
     
@@ -17,24 +16,35 @@ class Flash:
     MAX_SPEED_TRANSLATION = 200
 
     
-    def __init__(self):
-        """ Creates an Flash API object and connects to the robot. """
+    def __init__(self, uscript_filename = None):
+        """ Creates an Flash API object and connects to the robot. 
+        
+        @param uscript_filename - absolute file path; if a filename is given the content will be 
+                                  uploaded during the start of the robot.
+        """
         self.uw = UrbiWrapper()
 
         # check if the result from the dummy request fits; otherwise abort
         if not self.uw.isConnected:
             raise RuntimeError('Connection to Flash failed.')
 
-        # auxiliary URBI scripts
+        # general URBI scripts
         self.uw.send(U_FLASH_INIT)
+
+        # load auxiliary URBI script
+        if uscript_filename is not None:
+            self.uploadUrbiScript(uscript_filename)
 
         # battery and laser bring their own connections
         self.battery = Battery()
         self.laser   = Laser()
-
+        
 
     def uploadUrbiScript(self, filename):
-        """ Uploads a UrbiScript """
+        """ Uploads a UrbiScript given by filename.
+        
+        @param filename - absolute file path
+        """
         with open(filename, 'r') as f:
             self.uw.send(f.read())
 
