@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- Path of the file that contains the URBI functions definitions -->
+  <arg name="filename"        default="$(find flash_behaviors)/config/functions"/>
+
+  <include file="$(find flash_2dnav)/launch/move_base.launch"/>
+  
+  <node pkg="flash_behaviors"
+        name="action_server"
+        type="action_server.py"
+        output="screen">
+  
+    <param name="filename"    value="$(arg filename)"/>
+  </node>
+
+</launch>
