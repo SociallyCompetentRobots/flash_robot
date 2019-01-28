@@ -1,0 +1,71 @@
+function m_PointAction(side, time) {
+
+  {
+    if (side=="left") {
+      m_APositionL(time, 
+        (_Arms_ZeroPositions[0] + 120), 
+        (_Arms_ZeroPositions[1] + 90), 
+        (_Arms_ZeroPositions[2] - 50), 
+        (_Arms_ZeroPositions[3] + 30), 
+        (_Arms_ZeroPositions[4] - 60)
+      ) &
+      m_APositionR(time,
+        (_Arms_ZeroPositions[0] - 10), 
+        (_Arms_ZeroPositions[1] + 55), 
+        (_Arms_ZeroPositions[2] + 0), 
+        (_Arms_ZeroPositions[3] + 20), 
+        (_Arms_ZeroPositions[4] + 0)
+      );
+    }
+    else if (side=="right")
+      m_APositionR(time, 
+        (_Arms_ZeroPositions[0] + 120), 
+        (_Arms_ZeroPositions[1] + 90), 
+        (_Arms_ZeroPositions[2] - 50), 
+        (_Arms_ZeroPositions[3] + 30), 
+        (_Arms_ZeroPositions[4] - 60)
+      ) &
+      m_APositionL(time,
+        (_Arms_ZeroPositions[0] - 10), 
+        (_Arms_ZeroPositions[1] + 55), 
+        (_Arms_ZeroPositions[2] + 0), 
+        (_Arms_ZeroPositions[3] + 20), 
+        (_Arms_ZeroPositions[4] + 0)
+      );
+  } & {
+    m_HandPoint(side, time);
+  };
+
+};
+
+function m_HandPoint(side,time) {
+  
+  {
+    if ((side == "left") || (side == "both")) 
+      m_HOrientationL(time, 0, 0) &
+      m_HPositionL(time, 0, 0, 0, 140, 120, 0, 140, 120, 0, 140, 80, 0);
+  } & {
+    if ((side == "right") || (side == "both"))
+      m_HOrientationR(time, 0, 0) &
+      m_HPositionR(time, 0, 0, 0, 140, 120, 0, 140, 120, 0, 140, 80, 0);
+  };
+  
+};
+
+function PointRight(time) {
+  m_PointAction("right", time);
+};
+
+function PointLeft(time) {
+  m_PointAction("left", time);
+};
+
+function SpeakPointRight(text, intensity, time) {
+  PointRight(time) &
+  robot.body.neck.head.Say(text, intensity, 0);
+};
+
+function SpeakPointLeft(text, intensity, time) {
+  PointLeft(time);
+  robot.body.neck.head.Say(text, intensity, 0);
+};
