@@ -63,6 +63,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate actions in the 'action' folder
 add_action_files(
   FILES
+  Act.action
   Behave.action
   Speak.action
 )
