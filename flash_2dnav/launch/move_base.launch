@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
+
+  <arg name="map"                 default="$(find flash_maps)/config/lab_map_tight.yaml"/>
+  <arg name="control_frequency"   default="20"/>
+  <arg name="planner"             default="dwa"/> <!-- One of either base or dwa -->
  
   <!-- Run the robot configuration -->
   <include file="$(find flash_2dnav)/launch/flash_configuration.launch"/>
@@ -8,7 +12,7 @@
   <node pkg="map_server"
         name="map_server"
         type="map_server"
-        args="$(find flash_maps)/config/lab_map_tight.yaml"/>
+        args="$(arg map)"/>
 
   <!--- Run AMCL -->
   <node pkg="amcl"
@@ -21,6 +25,7 @@
     <rosparam file="$(find flash_2dnav)/config/localization/amcl.yaml" command="load"/>
   </node>
 
+  <!-- Navigation -->
   <node pkg="move_base"
         name="move_base"
         type="move_base"
@@ -29,15 +34,21 @@
     
     <remap from="cmd_vel" to="flash_robot/cmd_vel"/>
     
-    <param name="controller_frequency"    value="5"/>
-    <param name="base_local_planner"      value="dwa_local_planner/DWAPlannerROS"/>
+    <param name="controller_frequency"    value="$(arg control_frequency)"/>
     
+    <!-- Costmaps parameters -->
     <rosparam file="$(find flash_2dnav)/config/planner/common_costmap_params.yaml" command="load" ns="global_costmap"/> 
     <rosparam file="$(find flash_2dnav)/config/planner/common_costmap_params.yaml" command="load" ns="local_costmap"/>
     <rosparam file="$(find flash_2dnav)/config/planner/local_costmap_params.yaml" command="load"/>
-    <rosparam file="$(find flash_2dnav)/config/planner/global_costmap_params.yaml" command="load"/> 
-    <!--rosparam file="$(find flash_2dnav)/config/planner/base_local_planner_params.yaml" command="load"/-->
-    <rosparam file="$(find flash_2dnav)/config/planner/dwa_local_planner_params.yaml" command="load"/>
+    <rosparam file="$(find flash_2dnav)/config/planner/global_costmap_params.yaml" command="load"/>
+    
+    <!-- Trajectory local planner -->
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" if="$(eval arg('planner') == 'base')"/>
+    <rosparam file="$(find flash_2dnav)/config/planner/base_local_planner_params.yaml" command="load" if="$(eval arg('planner') == 'base')"/>
+    
+    <!-- DWA local planner -->
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" if="$(eval arg('planner') == 'dwa')"/>
+    <rosparam file="$(find flash_2dnav)/config/planner/dwa_local_planner_params.yaml" command="load" if="$(eval arg('planner') == 'dwa')"/>
   </node>
 
 </launch>

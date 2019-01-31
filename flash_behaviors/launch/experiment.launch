@@ -3,8 +3,15 @@
 
   <!-- Path of the file that contains the URBI functions definitions -->
   <arg name="filename"        default="$(find flash_behaviors)/config/functions"/>
+  
+  <!-- Arguments for move_base -->
+  <arg name="control_frequency"   default="20"/>
+  <arg name="planner"             default="base"/>
 
-  <include file="$(find flash_2dnav)/launch/move_base.launch"/>
+  <include file="$(find flash_2dnav)/launch/move_base.launch">
+    <arg name="control_frequency" value="$(arg control_frequency)"/>
+    <arg name="planner"           value="$(arg planner)"/>
+  </include>
   
   <node pkg="flash_behaviors"
         name="action_server"
