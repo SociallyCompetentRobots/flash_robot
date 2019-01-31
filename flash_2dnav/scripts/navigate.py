@@ -30,26 +30,26 @@ if __name__ == '__main__':
     rospy.sleep(3.)
 
     # Define goal -> visit the user
-    # move_goal = MoveBaseGoal()
+    move_goal = MoveBaseGoal()
 
-    # move_goal.target_pose.header.frame_id = 'map'
-    # move_goal.target_pose.header.stamp = rospy.Time.now()
+    move_goal.target_pose.header.frame_id = 'map'
+    move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    # move_goal.target_pose.pose.position.x = 1.87
-    # move_goal.target_pose.pose.position.y = -1.54
-    # move_goal.target_pose.pose.position.z = 0.0
+    move_goal.target_pose.pose.position.x = 1.18
+    move_goal.target_pose.pose.position.y = -1.4
+    move_goal.target_pose.pose.position.z = 0.0
 
-    # # orientation = tr.quaternion_from_euler(0.0, 0.0, -1.5708)
-    # # move_goal.target_pose.pose.orientation.x = orientation[0]
-    # # move_goal.target_pose.pose.orientation.y = orientation[1]
-    # # move_goal.target_pose.pose.orientation.z = orientation[2]
-    # # move_goal.target_pose.pose.orientation.w = orientation[3]
-    # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14/2))
+    # orientation = tr.quaternion_from_euler(0.0, 0.0, -1.5708)
+    # move_goal.target_pose.pose.orientation.x = orientation[0]
+    # move_goal.target_pose.pose.orientation.y = orientation[1]
+    # move_goal.target_pose.pose.orientation.z = orientation[2]
+    # move_goal.target_pose.pose.orientation.w = orientation[3]
+    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14/2))
 
-    # rospy.loginfo("Sending move goal...")
+    rospy.loginfo("Sending move goal...")
 
-    # move_client.send_goal(move_goal)
-    # move_client.wait_for_result()
+    move_client.send_goal(move_goal)
+    move_client.wait_for_result()
 
     rospy.loginfo("Current time: %s", str(datetime.now()))
 
@@ -63,25 +63,32 @@ if __name__ == '__main__':
     act_client.send_goal(act_goal)
     act_client.wait_for_result()
 
-    
+    # Go back to normal position.
+
+    act_goal.action = 'GoToRelaxedPose()'
+
+    rospy.loginfo("Sending act goal...")
+
+    act_client.send_goal(act_goal)
+    act_client.wait_for_result()
 
     # Define goal -> go home
-    # move_goal = MoveBaseGoal()
+    move_goal = MoveBaseGoal()
 
-    # move_goal.target_pose.header.frame_id = 'map'
-    # move_goal.target_pose.header.stamp = rospy.Time.now()
+    move_goal.target_pose.header.frame_id = 'map'
+    move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    # move_goal.target_pose.pose.position.x = 0.0
-    # move_goal.target_pose.pose.position.y = 0.0
-    # move_goal.target_pose.pose.position.z = 0.0
-    # move_goal.target_pose.pose.orientation.x = 0.0
-    # move_goal.target_pose.pose.orientation.y = 0.0
-    # move_goal.target_pose.pose.orientation.z = 0.0
-    # move_goal.target_pose.pose.orientation.w = 1.0
+    move_goal.target_pose.pose.position.x = 0.0
+    move_goal.target_pose.pose.position.y = 0.0
+    move_goal.target_pose.pose.position.z = 0.0
+    move_goal.target_pose.pose.orientation.x = 0.0
+    move_goal.target_pose.pose.orientation.y = 0.0
+    move_goal.target_pose.pose.orientation.z = 0.0
+    move_goal.target_pose.pose.orientation.w = 1.0
 
-    # rospy.loginfo("Sending move goal...")
+    rospy.loginfo("Sending move goal...")
 
-    # move_client.send_goal(move_goal)
-    # move_client.wait_for_result()
+    move_client.send_goal(move_goal)
+    move_client.wait_for_result()
 
     rospy.loginfo("All done!")
