@@ -8,7 +8,7 @@
   <node pkg="map_server"
         name="map_server"
         type="map_server"
-        args="$(find flash_maps)/config/lab_map.yaml"/>
+        args="$(find flash_maps)/config/lab_map_tight.yaml"/>
 
   <!--- Run AMCL -->
   <node pkg="amcl"
@@ -37,7 +37,7 @@
     <rosparam file="$(find flash_2dnav)/config/planner/local_costmap_params.yaml" command="load"/>
     <rosparam file="$(find flash_2dnav)/config/planner/global_costmap_params.yaml" command="load"/> 
     <!--rosparam file="$(find flash_2dnav)/config/planner/base_local_planner_params.yaml" command="load"/-->
-    <!--rosparam file="$(find flash_2dnav)/config/planner/dwa_local_planner_params.yaml" command="load"/-->
+    <rosparam file="$(find flash_2dnav)/config/planner/dwa_local_planner_params.yaml" command="load"/>
   </node>
 
 </launch>
