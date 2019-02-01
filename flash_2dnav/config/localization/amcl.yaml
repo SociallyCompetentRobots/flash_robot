@@ -51,7 +51,7 @@ global_frame_id : map
 # Initial pose:
 initial_pose_x: 0.0
 initial_pose_y: 0.0
-initial_pose_a: 0.0
+initial_pose_a: 3.14
 initial_cov_xx: 0.1
 initial_cov_yy: 0.01
 initial_cov_aa: rad(pi/12)*rad(pi/12)
