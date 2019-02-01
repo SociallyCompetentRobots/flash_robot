@@ -7,7 +7,6 @@ import actionlib
 from flash_controller.flash import Flash
 from flash_behaviors.msg import ActAction
 
-filename = '/home/jose-xenial/Software/ros/kinetic/socoro_ws/src/flash_robot/flash_behaviors/config/functions'
 
 class ActionServer(object):
     
