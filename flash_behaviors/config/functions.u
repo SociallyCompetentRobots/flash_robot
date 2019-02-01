@@ -69,9 +69,26 @@ function SpeakPointLeft(text, intensity, time) {
   robot.body.neck.head.Say(text, intensity, 0);
 };
 
+function TuckArms(time) {
+  m_APositionL(time,
+    (_Arms_ZeroPositions[0] - 10),
+    (_Arms_ZeroPositions[1] + 65),
+    (_Arms_ZeroPositions[2] + 0),
+    (_Arms_ZeroPositions[3] + 30),
+    (_Arms_ZeroPositions[4] + 0)
+  ) &
+  m_APositionR(time,
+    (_Arms_ZeroPositions[5] - 10),
+    (_Arms_ZeroPositions[6] + 65),
+    (_Arms_ZeroPositions[7] + 0),
+    (_Arms_ZeroPositions[8] + 35),
+    (_Arms_ZeroPositions[9] + 0)
+  );
+};
+
 function GoToRelaxedPose() {
-  robot.body.arm.hand.MoveOrientation(2,0,0)&
-  robot.body.arm.hand.MoveClose(4,2)&
-  robot.body.neck.head.BehaveNormal(2)&
-  robot.body.arm.MoveCenterDown(3);
+  robot.body.arm.hand.MoveOrientation(2,0,0) &
+  robot.body.arm.hand.MoveClose(4,2) &
+  robot.body.neck.head.BehaveNormal(2) &
+  TuckArms(3);
 };
