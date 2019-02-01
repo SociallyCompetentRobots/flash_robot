@@ -40,14 +40,13 @@ function m_PointAction(side, time) {
 
 function m_HandPoint(side,time) {
   
-  {
-    if ((side == "left") || (side == "both")) 
-      m_HOrientationL(time, 0, 0) &
-      m_HPositionL(time, 0, 0, 0, 140, 120, 0, 140, 120, 0, 140, 80, 0);
-  } & {
-    if ((side == "right") || (side == "both"))
-      m_HOrientationR(time, 0, 0) &
-      m_HPositionR(time, 0, 0, 0, 140, 120, 0, 140, 120, 0, 140, 80, 0);
+  if ((side == "left") || (side == "both")) {
+    m_HOrientationL(time, 0, 0) &
+    m_HPositionL(time, 0, 0, 0, 140, 120, 0, 140, 120, 0, 140, 80, 0);
+  } &
+  if ((side == "right") || (side == "both")) {
+    m_HOrientationR(time, 0, 0) &
+    m_HPositionR(time, 0, 0, 0, 140, 120, 0, 140, 120, 0, 140, 80, 0);
   };
   
 };

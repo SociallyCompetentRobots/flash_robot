@@ -2,7 +2,7 @@
 <launch>
 
   <!-- Path of the file that contains the URBI functions definitions -->
-  <arg name="filename"        default="$(find flash_behaviors)/config/functions"/>
+  <arg name="filename"        default="$(find flash_behaviors)/config/functions.u"/>
   
   <!-- Arguments for move_base -->
   <arg name="control_frequency"   default="20"/>
