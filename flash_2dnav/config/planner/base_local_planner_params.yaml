@@ -1,6 +1,17 @@
 TrajectoryPlannerROS:
-  holonomic_robot: false
+  # Maximum translational speed         = 200 mm/s    = 0.2 m/s
+  # Maximum rotational speed            = 20  rad/s2
+  # Maximum translational acceleration  = 300 mm/s2   = 0.3 m/s2
+  # Maximum rotational acceleration     = 150 deg/s2
   
-  yaw_goal_tolerance: 0.05
-  xy_goal_tolerance: 0.2
-  latch_xy_goal_tolerance: true
+  # Robot configuration parameters
+  max_vel_x:                1.0
+  #min_vel_x:                0.7
+  #min_in_place_vel_theta:   0.8
+  
+  holonomic_robot:          false
+  
+  # Goal tolerance parameters
+  yaw_goal_tolerance:       0.05
+  xy_goal_tolerance:        0.2
+  latch_xy_goal_tolerance:  true
