@@ -64,88 +64,84 @@ if __name__ == '__main__':
     act_client.send_goal(act_goal)
     act_client.wait_for_result()
 
-    # # Waypoints definition:
+    # Waypoints definition:
+    move_goal = MoveBaseGoal()
+
+    move_goal.target_pose.header.frame_id = 'map'
+
+    # Home.
+    move_goal.target_pose.header.stamp = rospy.Time.now()
+
+    move_goal.target_pose.pose.position.x = 0.0
+    move_goal.target_pose.pose.position.y = 0.0
+    move_goal.target_pose.pose.position.z = 0.0
+
+    move_goal.target_pose.pose.orientation = Quaternion(0., 0., 0., 1.)
+
+    rospy.loginfo("Sending waypoint 1...")
+
+    move_client.send_goal(move_goal)
+    move_client.wait_for_result()
+
+    # Move forward 1.4 meters.
+    move_goal.target_pose.header.stamp = rospy.Time.now()
+
+    move_goal.target_pose.pose.position.x = 1.4
+    move_goal.target_pose.pose.position.y = 0.0
+    move_goal.target_pose.pose.position.z = 0.0
+
+    move_goal.target_pose.pose.orientation = Quaternion(0., 0., 0., 1.)
+
+    rospy.loginfo("Sending waypoint 2...")
+
+    move_client.send_goal(move_goal)
+    move_client.wait_for_result()
+
+    # Rotate 90 degrees right.
+    move_goal.target_pose.header.stamp = rospy.Time.now()
+
+    move_goal.target_pose.pose.position.x = 1.4
+    move_goal.target_pose.pose.position.y = 0.0
+    move_goal.target_pose.pose.position.z = 0.0
+
+    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14/2))
+
+    rospy.loginfo("Sending waypoint 3...")
+
+    move_client.send_goal(move_goal)
+    move_client.wait_for_result()
+
+    # Move forward 1.4 meters.
+    move_goal.target_pose.header.stamp = rospy.Time.now()
+
+    move_goal.target_pose.pose.position.x =  1.4
+    move_goal.target_pose.pose.position.y = -1.4
+    move_goal.target_pose.pose.position.z =  0.0
+
+    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14/2))
+
+    rospy.loginfo("Sending waypoint 4...")
+
+    move_client.send_goal(move_goal)
+    move_client.wait_for_result()
+
+    # Define goal -> visit the user (this is in replacement of the waypoints if we want the robot to plan to go straight to the user instead of predefined waypoints)
+
     # move_goal = MoveBaseGoal()
 
     # move_goal.target_pose.header.frame_id = 'map'
-
-    # # Home.
     # move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    # move_goal.target_pose.pose.position.x = 0.0
-    # move_goal.target_pose.pose.position.y = 0.0
-    # move_goal.target_pose.pose.position.z = 0.0
-
-    # move_goal.target_pose.pose.orientation = Quaternion(0., 0., 0., 1.)
-
-    # rospy.loginfo("Sending waypoint 1...")
-
-    # move_client.send_goal(move_goal)
-    # move_client.wait_for_result()
-
-    # # Move forward 1.4 meters.
-    # move_goal.target_pose.header.stamp = rospy.Time.now()
-
-    # move_goal.target_pose.pose.position.x = 1.4
-    # move_goal.target_pose.pose.position.y = 0.0
-    # move_goal.target_pose.pose.position.z = 0.0
-
-    # move_goal.target_pose.pose.orientation = Quaternion(0., 0., 0., 1.)
-
-    # rospy.loginfo("Sending waypoint 2...")
-
-    # move_client.send_goal(move_goal)
-    # move_client.wait_for_result()
-
-    # # Rotate 90 degrees right.
-    # move_goal.target_pose.header.stamp = rospy.Time.now()
-
-    # move_goal.target_pose.pose.position.x = 1.4
-    # move_goal.target_pose.pose.position.y = 0.0
-    # move_goal.target_pose.pose.position.z = 0.0
-
-    # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14/2))
-
-    # rospy.loginfo("Sending waypoint 3...")
-
-    # move_client.send_goal(move_goal)
-    # move_client.wait_for_result()
-
-    # # Move forward 1.4 meters.
-    # move_goal.target_pose.header.stamp = rospy.Time.now()
-
-    # move_goal.target_pose.pose.position.x =  1.4
+    # move_goal.target_pose.pose.position.x = 1.18
     # move_goal.target_pose.pose.position.y = -1.4
-    # move_goal.target_pose.pose.position.z =  0.0
+    # move_goal.target_pose.pose.position.z = 0.0
 
     # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14/2))
 
-    # rospy.loginfo("Sending waypoint 4...")
+    # rospy.loginfo("Sending move goal...")
 
     # move_client.send_goal(move_goal)
     # move_client.wait_for_result()
-
-    # # Define goal -> visit the user
-    # # move_goal = MoveBaseGoal()
-
-    # # move_goal.target_pose.header.frame_id = 'map'
-    # # move_goal.target_pose.header.stamp = rospy.Time.now()
-
-    # # move_goal.target_pose.pose.position.x = 1.18
-    # # move_goal.target_pose.pose.position.y = -1.4
-    # # move_goal.target_pose.pose.position.z = 0.0
-
-    # # # orientation = tr.quaternion_from_euler(0.0, 0.0, -1.5708)
-    # # # move_goal.target_pose.pose.orientation.x = orientation[0]
-    # # # move_goal.target_pose.pose.orientation.y = orientation[1]
-    # # # move_goal.target_pose.pose.orientation.z = orientation[2]
-    # # # move_goal.target_pose.pose.orientation.w = orientation[3]
-    # # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14/2))
-
-    # # rospy.loginfo("Sending move goal...")
-
-    # # move_client.send_goal(move_goal)
-    # # move_client.wait_for_result()
 
     # Stop head behavior.
     act_goal.action = 'robot.body.neck.head.Stop'
@@ -181,61 +177,61 @@ if __name__ == '__main__':
     act_client.send_goal(act_goal)
     act_client.wait_for_result()
 
-    # # Turn 180 degrees.
-    # move_goal.target_pose.header.stamp = rospy.Time.now()
+    # Turn 180 degrees.
+    move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    # move_goal.target_pose.pose.position.x =  1.4
-    # move_goal.target_pose.pose.position.y = -1.4
-    # move_goal.target_pose.pose.position.z =  0.0
+    move_goal.target_pose.pose.position.x =  1.4
+    move_goal.target_pose.pose.position.y = -1.4
+    move_goal.target_pose.pose.position.z =  0.0
 
-    # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14*3/2))
+    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14*3/2))
 
-    # rospy.loginfo("Sending waypoint 5...")
+    rospy.loginfo("Sending waypoint 5...")
 
-    # move_client.send_goal(move_goal)
-    # move_client.wait_for_result()
+    move_client.send_goal(move_goal)
+    move_client.wait_for_result()
 
-    # # Go back 1.4 meters.
-    # move_goal.target_pose.header.stamp = rospy.Time.now()
+    # Go back 1.4 meters.
+    move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    # move_goal.target_pose.pose.position.x = 1.4
-    # move_goal.target_pose.pose.position.y = 0.0
-    # move_goal.target_pose.pose.position.z = 0.0
+    move_goal.target_pose.pose.position.x = 1.4
+    move_goal.target_pose.pose.position.y = 0.0
+    move_goal.target_pose.pose.position.z = 0.0
 
-    # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14*3/2))
+    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14*3/2))
 
-    # rospy.loginfo("Sending waypoint 6...")
+    rospy.loginfo("Sending waypoint 6...")
 
-    # move_client.send_goal(move_goal)
-    # move_client.wait_for_result()
+    move_client.send_goal(move_goal)
+    move_client.wait_for_result()
 
-    # # Turn 90 degrees left.
-    # move_goal.target_pose.header.stamp = rospy.Time.now()
+    # Turn 90 degrees left.
+    move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    # move_goal.target_pose.pose.position.x = 1.4
-    # move_goal.target_pose.pose.position.y = 0.0
-    # move_goal.target_pose.pose.position.z = 0.0
+    move_goal.target_pose.pose.position.x = 1.4
+    move_goal.target_pose.pose.position.y = 0.0
+    move_goal.target_pose.pose.position.z = 0.0
 
-    # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14))
+    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14))
 
-    # rospy.loginfo("Sending waypoint 7...")
+    rospy.loginfo("Sending waypoint 7...")
 
-    # move_client.send_goal(move_goal)
-    # move_client.wait_for_result()
+    move_client.send_goal(move_goal)
+    move_client.wait_for_result()
 
-    # # Go back 1.4 meters.
-    # move_goal.target_pose.header.stamp = rospy.Time.now()
+    # Go back 1.4 meters.
+    move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    # move_goal.target_pose.pose.position.x = 0.0
-    # move_goal.target_pose.pose.position.y = 0.0
-    # move_goal.target_pose.pose.position.z = 0.0
+    move_goal.target_pose.pose.position.x = 0.0
+    move_goal.target_pose.pose.position.y = 0.0
+    move_goal.target_pose.pose.position.z = 0.0
 
-    # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14))
+    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14))
 
-    # rospy.loginfo("Sending waypoint 8...")
+    rospy.loginfo("Sending waypoint 8...")
 
-    # move_client.send_goal(move_goal)
-    # move_client.wait_for_result()
+    move_client.send_goal(move_goal)
+    move_client.wait_for_result()
 
     # Start the look alive behavior.
     act_goal.action = 'robot.body.neck.head.ActAlive(5, 2, 5, 2, 2, 5, 2),'
@@ -260,23 +256,8 @@ if __name__ == '__main__':
     # Keep the node alive.
     rospy.spin()
 
-    
+    # Define goal -> go home (this is instead of the waypoints if we want the robot to plan to go straight home instead of predefined waypoints)
 
-    # Home.
-    # move_goal.target_pose.header.stamp = rospy.Time.now()
-
-    # move_goal.target_pose.pose.position.x = 0.0
-    # move_goal.target_pose.pose.position.y = 0.0
-    # move_goal.target_pose.pose.position.z = 0.0
-
-    # move_goal.target_pose.pose.orientation = Quaternion(0., 0., 0., 1.)
-
-    # rospy.loginfo("Sending waypoint 9...")
-
-    # move_client.send_goal(move_goal)
-    # move_client.wait_for_result()
-
-    # Define goal -> go home
     # move_goal = MoveBaseGoal()
 
     # move_goal.target_pose.header.frame_id = 'map'
@@ -285,10 +266,8 @@ if __name__ == '__main__':
     # move_goal.target_pose.pose.position.x = 0.0
     # move_goal.target_pose.pose.position.y = 0.0
     # move_goal.target_pose.pose.position.z = 0.0
-    # move_goal.target_pose.pose.orientation.x = 0.0
-    # move_goal.target_pose.pose.orientation.y = 0.0
-    # move_goal.target_pose.pose.orientation.z = 0.0
-    # move_goal.target_pose.pose.orientation.w = 1.0
+
+    # move_goal.target_pose.pose.orientation = Quaternion(0., 0., 0., 1.)
 
     # rospy.loginfo("Sending move goal...")
 
