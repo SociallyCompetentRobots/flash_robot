@@ -22,9 +22,10 @@ if __name__ == '__main__':
     move_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
     act_client = actionlib.SimpleActionClient('action_server', ActAction)
 
-    rospy.loginfo("Waiting for server...")
+    rospy.loginfo("Waiting for servers...")
+    move_client.wait_for_server()
     act_client.wait_for_server()
-    rospy.loginfo("Server found!")
+    rospy.loginfo("Servers found!")
 
     # Start the look alive behavior.
     act_goal = ActGoal()
