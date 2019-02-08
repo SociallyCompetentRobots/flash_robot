@@ -40,7 +40,7 @@ In order to install the Python3 required dependencies, we recommend creating a v
 The robot odometry is computed based on planar laser scans using the [rf2o_laser_odometry](https://github.com/MAPIRlab/rf2o_laser_odometry) package. The official package has been released only for ROS Indigo, hence you will need to clone the repository and build it within your ROS workspace (use provided fork):
 
 ```sh
-cd (YOUR_PATH)/kinetic_ws/src
+cd <YOUR_PATH>/kinetic_ws/src
 git clone https://github.com/joselpart/rf2o_laser_odometry.git
 cd ..
 catkin_make
@@ -51,7 +51,7 @@ catkin_make
 In order to show the battery level in RViz, the [topics_rviz_plugin](https://gitlab.com/InstitutMaupertuis/topics_rviz_plugin) package is used:
 
 ```sh
-cd (YOUR_PATH)/kinetic_ws/src
+cd <YOUR_PATH>/kinetic_ws/src
 git clone https://gitlab.com/InstitutMaupertuis/topics_rviz_plugin.git
 cd topics_rviz_plugin
 git checkout kinetic
@@ -71,7 +71,7 @@ source python3_venv/bin/activate
 Then, clone the flash_robot stack, install the dependencies and build it:
 
 ```sh
-cd (YOUR_PATH)/kinetic_ws/src
+cd <YOUR_PATH>/kinetic_ws/src
 git clone https://github.com/BrutusTT/flash_robot.git
 pip install -r flash_robot/requirements.txt
 cd ..
@@ -117,7 +117,7 @@ Then, you can use a joystick to teleoperate the robot around (see [flash_control
 
 ```sh
 # If you don't provide a directory, it will be saved in the current directory.
-rosrun map_server map_saver -f (MAP_NAME)
+rosrun map_server map_saver -f <MAP_NAME>
 ```
 
 To navigate in the created map, first change the corresponding parameter in `move_base.launch` to point to your map. In this file, you can also change the local planner to be used. Then, you can run it and provide goals using the available RViz plugin:
