@@ -49,11 +49,11 @@ class Flash:
             self.uw.send(f.read())
 
 
-    def say(self, text, duration = 2):
+    def say(self, text, intensity = 2):
         """ Speaks the given text for the given duration. The duration is not yet calculated 
             based on the text.
         """
-        self.uw.send('robot.body.neck.head.Say("%s", %i, 0)' % (text, duration))
+        self.uw.send('robot.body.neck.head.Say("%s", %i, 0)' % (text, intensity))
 
 
     def translate(self, duration, speed = DEF_SPEED_TRANSLATION):
