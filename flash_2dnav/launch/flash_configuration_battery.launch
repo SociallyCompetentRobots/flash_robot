@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- Robot description -->
+  <param name="robot_description" command="xacro --inorder '$(find flash_description)/urdf/flash_model.urdf.xacro'"/>
+  
+  <!-- State publisher -->
+  <node pkg="robot_state_publisher"
+        name="robot_state_publisher"
+        type="robot_state_publisher"/>
+
+  <!-- Laser node-->
+  <node pkg="flash_controller"
+        name="laser_node"
+        type="laser_node.py"
+        output="screen"/>
+  
+  <!-- Battery node-->
+  <node pkg="flash_controller"
+        name="battery_node"
+        type="battery_node.py"
+        output="screen"/>
+
+  <!-- Robot node -->
+  <node pkg="flash_controller"
+        name="flash_node"
+        type="flash_node.py"
+        output="screen"/>
+  
+  <!-- Odometry -->
+  <include file="$(find flash_odom)/launch/flash_odom.launch"/>
+  
+  <node pkg="rviz"
+        name="rviz"
+        type="rviz"
+        args="-d $(find flash_2dnav)/config/rviz/navigation.rviz"/>
+
+</launch>
