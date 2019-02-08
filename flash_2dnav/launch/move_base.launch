@@ -6,7 +6,7 @@
   <arg name="planner"             default="dwa"/> <!-- One of either base or dwa -->
  
   <!-- Run the robot configuration -->
-  <include file="$(find flash_2dnav)/launch/flash_configuration_battery.launch"/>
+  <include file="$(find flash_2dnav)/launch/flash_configuration.launch"/>
   
   <!-- Run the map server --> 
   <node pkg="map_server"
