@@ -8,7 +8,7 @@ import numpy as np
 import rospy
 
 from geometry_msgs.msg      import Twist
-from std_msgs.msg           import Float32, Int16MultiArray, Int16
+from std_msgs.msg           import Float32, Int16MultiArray, Int16, String
 from sensor_msgs.msg        import Image
 
 
@@ -29,6 +29,7 @@ class FlashNode:
 
         self.sub_cmd_vel   = rospy.Subscriber('/flash_robot/cmd_vel',     Twist,     self.cmdVelCallback)
         self.sub_behave    = rospy.Subscriber('/flash_robot/behave',      Int16,     self.behaveCallback)
+        self.sub_speech    = rospy.Subscriber('/flash_robot/say',         String,    self.speechCallback)
 
         # startup FLASH
         self.flash         = Flash()
@@ -37,6 +38,10 @@ class FlashNode:
         self.cmd_vel_flag  = False
 
 
+    def speechCallback(self, msg):
+        self.flash.say(msg.data)
+
+    
     def cmdVelCallback(self, msg):
         self.cmd_vel_ts   = time.time()
         self.cmd_vel_flag = True
