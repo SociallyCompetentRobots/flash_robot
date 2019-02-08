@@ -11,6 +11,7 @@ from geometry_msgs.msg import Quaternion
 
 from flash_behaviors.msg import ActAction
 from flash_behaviors.msg import ActGoal
+from flash_behaviors.msg import Speech
 
 from datetime import datetime
 
@@ -18,6 +19,8 @@ from datetime import datetime
 if __name__ == '__main__':
 
     rospy.init_node('move_base_client_node')
+
+    speak_pub = rospy.Publisher('/flash_robot/say', Speech, queue_size=1)
 
     move_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
     act_client = actionlib.SimpleActionClient('action_server', ActAction)
@@ -155,12 +158,18 @@ if __name__ == '__main__':
     rospy.loginfo("Current time: %s", str(datetime.now()))
 
     # Perform interaction behavior.
-    act_goal.action = 'SpeakPointLeft("You are fired!", 5, 4)'
+    act_goal.action = 'PointLeft(4)'
 
     rospy.loginfo("Sending act goal (interaction behavior)...")
 
     act_client.send_goal(act_goal)
     act_client.wait_for_result()
+
+    speech = Speech()
+    speech.text = 'You are fired!'
+    speech.intensity = 2
+
+    speak_pub.publish(speech)
 
     # Go back to relaxed position.
     act_goal.action = 'GoToRelaxedPose()'
