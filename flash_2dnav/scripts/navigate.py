@@ -68,6 +68,9 @@ if __name__ == '__main__':
     act_client.send_goal(act_goal)
     act_client.wait_for_result()
 
+    # Start the timer.
+    begin = rospy.get_time()
+
     # Waypoints definition:
     move_goal = MoveBaseGoal()
 
@@ -155,7 +158,10 @@ if __name__ == '__main__':
     act_client.send_goal(act_goal)
     act_client.wait_for_result()
 
-    rospy.loginfo("Current time: %s", str(datetime.now()))
+    # Report the time it took for the robot to reach the goal position.
+    # rospy.loginfo("Current time: %s", str(datetime.now()))
+    middle = rospy.get_time() - begin
+    rospy.loginfo("Time to the goal: %s seconds", str(middle))
 
     # Perform interaction behavior.
     act_goal.action = 'PointLeft(4)'
@@ -242,6 +248,10 @@ if __name__ == '__main__':
 
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
+
+    # Finish time.
+    end = rospy.get_time() - begin
+    rospy.loginfo("Time to the end: %s seconds", str(end))
 
     # Start the look alive behavior.
     act_goal.action = 'robot.body.neck.head.ActAlive(5, 2, 5, 2, 2, 5, 2),'
