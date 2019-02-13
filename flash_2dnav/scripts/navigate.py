@@ -172,7 +172,7 @@ if __name__ == '__main__':
     act_client.wait_for_result()
 
     speech = Speech()
-    speech.text = 'You are fired!'
+    speech.text = 'Sorry to disturb you. Please open the word game on the desktop. Thank you.'
     speech.intensity = 2
 
     speak_pub.publish(speech)
