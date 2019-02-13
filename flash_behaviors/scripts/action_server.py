@@ -15,8 +15,6 @@ class ActionServer(object):
         # Robot controller.
         self.flash = Flash(rospy.get_param("~filename"))
 
-        # self.flash.uploadUrbiScript(filename)
-
         # Action server.
         self._action_name = name
         self._as = actionlib.SimpleActionServer(self._action_name, ActAction, execute_cb=self.execute_cb, auto_start = False)
@@ -27,11 +25,11 @@ class ActionServer(object):
       
     def execute_cb(self, goal):
         
-        # self.flash.uploadUrbiScript(goal.action)
         try:
             self.flash.uw.send(goal.action)
         except Exception as e:
             print(e)
+        
         self._as.set_succeeded()
         
 
