@@ -104,10 +104,10 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
-    # Move forward 1.4 meters.
+    # Move forward 1.2 meters.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x = 1.4
+    move_goal.target_pose.pose.position.x = 1.2
     move_goal.target_pose.pose.position.y = 0.0
     move_goal.target_pose.pose.position.z = 0.0
 
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     # Rotate 90 degrees right.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x = 1.4
+    move_goal.target_pose.pose.position.x = 1.2
     move_goal.target_pose.pose.position.y = 0.0
     move_goal.target_pose.pose.position.z = 0.0
 
@@ -132,10 +132,10 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
-    # Move forward 1.4 meters.
+    # Move forward 1.2 meters.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x =  1.4
+    move_goal.target_pose.pose.position.x =  1.2
     move_goal.target_pose.pose.position.y = -1.8
     move_goal.target_pose.pose.position.z =  0.0
 
@@ -225,7 +225,7 @@ if __name__ == '__main__':
     # Turn 180 degrees.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x =  1.4
+    move_goal.target_pose.pose.position.x =  1.2
     move_goal.target_pose.pose.position.y = -1.8
     move_goal.target_pose.pose.position.z =  0.0
 
@@ -236,10 +236,10 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
-    # Go back 1.4 meters.
+    # Go back 1.2 meters.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x = 1.4
+    move_goal.target_pose.pose.position.x = 1.2
     move_goal.target_pose.pose.position.y = 0.0
     move_goal.target_pose.pose.position.z = 0.0
 
@@ -253,7 +253,7 @@ if __name__ == '__main__':
     # Turn 90 degrees left.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x = 1.4
+    move_goal.target_pose.pose.position.x = 1.2
     move_goal.target_pose.pose.position.y = 0.0
     move_goal.target_pose.pose.position.z = 0.0
 
@@ -264,7 +264,7 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
-    # Go back 1.4 meters.
+    # Go back 1.2 meters.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
     move_goal.target_pose.pose.position.x = 0.0
