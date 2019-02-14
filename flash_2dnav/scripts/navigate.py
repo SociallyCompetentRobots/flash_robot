@@ -132,14 +132,14 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
-    # Move forward 1.2 meters.
+    # Move forward 1.2 meters and rotate approximately -80 degrees.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
     move_goal.target_pose.pose.position.x =  1.2
     move_goal.target_pose.pose.position.y = -1.8
     move_goal.target_pose.pose.position.z =  0.0
 
-    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14/2))
+    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -11*3.14/25))
 
     rospy.loginfo("Sending waypoint 4...")
 
