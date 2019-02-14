@@ -20,6 +20,7 @@ if __name__ == '__main__':
 
     rospy.init_node('move_base_client_node')
 
+    # Speech publisher.
     speak_pub = rospy.Publisher('/flash_robot/say', Speech, queue_size=1)
 
     move_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
@@ -135,7 +136,7 @@ if __name__ == '__main__':
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
     move_goal.target_pose.pose.position.x =  1.4
-    move_goal.target_pose.pose.position.y = -1.4
+    move_goal.target_pose.pose.position.y = -1.8
     move_goal.target_pose.pose.position.z =  0.0
 
     move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14/2))
@@ -225,7 +226,7 @@ if __name__ == '__main__':
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
     move_goal.target_pose.pose.position.x =  1.4
-    move_goal.target_pose.pose.position.y = -1.4
+    move_goal.target_pose.pose.position.y = -1.8
     move_goal.target_pose.pose.position.z =  0.0
 
     move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14*3/2))
