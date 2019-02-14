@@ -24,7 +24,7 @@ def main():
     while cam.isOpened() and not rospy.is_shutdown():
         ret, frame = cam.read()
         if ret:
-            pub.publish(BRIDGE.cv2_to_imgmsg(frame, encoding = "rgb8"))
+            pub.publish(BRIDGE.cv2_to_imgmsg(frame, encoding = "bgr8"))
         ros_rate.sleep()
 
 
