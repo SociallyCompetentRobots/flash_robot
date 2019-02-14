@@ -15,7 +15,7 @@ def main():
     rospy.init_node('CameraNode')
 
     cam      = cv2.VideoCapture(URI)
-    pub      = rospy.Publisher('/flash_robot/camera', sensor_msgs.msg.Image, queue_size = 0)
+    pub      = rospy.Publisher('/flash_robot/camera', sensor_msgs.msg.Image, queue_size = 1)
     ros_rate = rospy.Rate(RATE)
 
     rospy.loginfo("CameraNode started")
