@@ -15,6 +15,9 @@ def main():
 
     cam = cv2.VideoCapture(URI)
     pub = rospy.Publisher('/flash_robot/camera', sensor_msgs.msg.Image, queue_size = 1)
+    
+    # Shutdown hook
+    rospy.on_shutdown(cam.release)
 
     rospy.loginfo("CameraNode started")
     
