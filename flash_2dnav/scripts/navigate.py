@@ -31,43 +31,65 @@ if __name__ == '__main__':
     act_client.wait_for_server()
     rospy.loginfo("Servers found!")
 
-    # Start the look alive behavior.
+    # Action goal.
     act_goal = ActGoal()
 
-    act_goal.action = 'robot.body.neck.head.ActAlive(5, 2, 5, 2, 2, 5, 2),'
+    # Convenience functions.
+    def relaxed_pose():
+        # Go to relaxed pose.
+        act_goal.action = 'GoToRelaxedPose()'
 
-    rospy.loginfo("Sending act goal (act alive)...")
+        rospy.loginfo("Sending act goal (relaxed pose)...")
 
-    act_client.send_goal(act_goal)
-    act_client.wait_for_result()
+        act_client.send_goal(act_goal)
+        act_client.wait_for_result()
+
+    def act_alive():
+        # Start the look alive behavior.
+        act_goal.action = 'robot.body.neck.head.ActAlive(5, 2, 5, 2, 2, 10, 2),'
+
+        rospy.loginfo("Sending act goal (act alive)...")
+
+        act_client.send_goal(act_goal)
+        act_client.wait_for_result()
+
+    def act_blinking():
+        # Start blinking behavior (during the forward motion).
+        act_goal.action = 'robot.body.neck.head.ActBlinking(10,2),'
+
+        rospy.loginfo("Sending act goal (blinking behavior)...")
+
+        act_client.send_goal(act_goal)
+        act_client.wait_for_result()
+
+    def stop_head():
+        # Stop head behavior.
+        act_goal.action = 'robot.body.neck.head.Stop'
+
+        rospy.loginfo("Sending act goal (stop head)...")
+
+        act_client.send_goal(act_goal)
+        act_client.wait_for_result()
+
+        # Make a normal face expression.
+        act_goal.action = 'robot.body.neck.head.BehaveNormal(2)'
+
+        rospy.loginfo("Sending act goal (Express normal)...")
+
+        act_client.send_goal(act_goal)
+        act_client.wait_for_result()
+
+    # Go to relaxed pose.
+    relaxed_pose()
+    # Start the look alive behavior.
+    act_alive()
 
     # Node sleeps for 5 minutes.
     # rospy.sleep(300.)
-    rospy.sleep(3.)
+    rospy.sleep(10.)
 
     # Stop head behavior.
-    act_goal.action = 'robot.body.neck.head.Stop'
-
-    rospy.loginfo("Sending act goal (stop head)...")
-
-    act_client.send_goal(act_goal)
-    act_client.wait_for_result()
-
-    # Go to relaxed position.
-    act_goal.action = 'GoToRelaxedPose()'
-
-    rospy.loginfo("Sending act goal (relaxed pose)...")
-
-    act_client.send_goal(act_goal)
-    act_client.wait_for_result()
-
-    # Send blinking behavior.
-    act_goal.action = 'robot.body.neck.head.ActBlinking(20,1),'
-
-    rospy.loginfo("Sending act goal (blink behavior)...")
-
-    act_client.send_goal(act_goal)
-    act_client.wait_for_result()
+    stop_head()
 
     # Start the timer.
     begin = rospy.get_time()
@@ -82,6 +104,9 @@ if __name__ == '__main__':
 
     # Wait for 2 seconds before starting the navigation.
     rospy.sleep(2.)
+
+    # Start the look alive behavior (during the turn in place motion).
+    act_alive()
 
     ###########################################################################
     # Waypoints definition.
@@ -104,6 +129,11 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
+    # Stop the look alive behavior (after turn in place motion).
+    stop_head() 
+    # Start blinking behavior (during the forward motion).
+    act_blinking()
+
     # Move forward 1.2 meters.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
@@ -117,6 +147,11 @@ if __name__ == '__main__':
 
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
+
+    # Stop the look blinking behavior.
+    stop_head()
+    # Start the look alive behavior (during the turn in place motion).
+    act_alive()
 
     # Rotate 90 degrees right.
     move_goal.target_pose.header.stamp = rospy.Time.now()
@@ -132,6 +167,11 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
+    # Stop the look alive behavior (after turn in place motion).
+    stop_head()
+    # Start blinking behavior (during the forward motion).
+    act_blinking()
+
     # Move forward 1.2 meters and rotate approximately -80 degrees.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
@@ -146,21 +186,16 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
-    ###########################################################################
-    # Interaction.
-    ###########################################################################
-    # Stop head behavior.
-    act_goal.action = 'robot.body.neck.head.Stop'
-
-    rospy.loginfo("Sending act goal (stop head)...")
-
-    act_client.send_goal(act_goal)
-    act_client.wait_for_result()
+    # Stop the look blinking behavior.
+    stop_head()
 
     # Report the time it took for the robot to reach the middle goal position.
     middle = rospy.get_time() - begin
     rospy.loginfo("Time to the goal: %s seconds", str(middle))
 
+    ###########################################################################
+    # Interaction.
+    ###########################################################################
     # Initiate interruption.
     speech.text = 'Hi there. Sorry to disturb you.'
     speech.intensity = 2
@@ -196,7 +231,7 @@ if __name__ == '__main__':
 
     speak_pub.publish(speech)
 
-    # Go back to relaxed position.
+    # Go back to relaxed pose.
     act_goal.action = 'robot.body.arm.MoveCenterDown(3)'
     
     act_client.send_goal(act_goal)
@@ -204,17 +239,14 @@ if __name__ == '__main__':
 
     rospy.sleep(2.)
 
-    act_goal.action = 'GoToRelaxedPose()'
+    relaxed_pose()
 
-    rospy.loginfo("Sending act goal (relaxed pose)...")
+    # Start the look alive behavior (during the turn in place motion).
+    act_goal = ActGoal()
 
-    act_client.send_goal(act_goal)
-    act_client.wait_for_result()
+    act_goal.action = 'robot.body.neck.head.ActAlive(5, 2, 5, 2, 2, 10, 2),'
 
-    # Send blinking behavior.
-    act_goal.action = 'robot.body.neck.head.ActBlinking(20,1),'
-
-    rospy.loginfo("Sending act goal (blinking behavior)...")
+    rospy.loginfo("Sending act goal (act alive)...")
 
     act_client.send_goal(act_goal)
     act_client.wait_for_result()
@@ -236,6 +268,11 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
+    # Stop the look alive behavior (after turn in place motion).
+    stop_head()
+    # Start blinking behavior (during the forward motion).
+    act_blinking()
+
     # Go back 1.2 meters.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
@@ -249,6 +286,11 @@ if __name__ == '__main__':
 
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
+
+    # Stop the look blinking behavior.
+    stop_head()
+    # Start the look alive behavior (during the turn in place motion).
+    act_alive()
 
     # Turn 90 degrees left.
     move_goal.target_pose.header.stamp = rospy.Time.now()
@@ -264,6 +306,11 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
+    # Stop the look alive behavior (after turn in place motion).
+    stop_head()
+    # Start blinking behavior (during the forward motion).
+    act_blinking()
+
     # Go back 1.2 meters.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
@@ -278,30 +325,18 @@ if __name__ == '__main__':
     move_client.send_goal(move_goal)
     move_client.wait_for_result()
 
+    # Stop the look blinking behavior.
+    stop_head()
+    # Start the look alive behavior (during the turn in place motion).
+    act_alive()
+
     ###########################################################################
 
     # Finish time.
     end = rospy.get_time() - begin
     rospy.loginfo("Time to the end: %s seconds", str(end))
 
-    # Start the look alive behavior.
-    act_goal.action = 'robot.body.neck.head.ActAlive(5, 2, 5, 2, 2, 5, 2),'
-
-    rospy.loginfo("Sending act goal (act alive)...")
-
-    act_client.send_goal(act_goal)
-    act_client.wait_for_result()
-
     # Shutdown hook.
-    def stop_head():
-        # Stop head behavior.
-        act_goal.action = 'robot.body.neck.head.Stop'
-
-        rospy.loginfo("Sending act goal (stop head)...")
-
-        act_client.send_goal(act_goal)
-        act_client.wait_for_result()
-
     rospy.on_shutdown(stop_head)
 
     # Keep the node alive.
