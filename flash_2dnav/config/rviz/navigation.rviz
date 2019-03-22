@@ -144,7 +144,7 @@ Visualization Manager:
         {}
       Update Interval: 0
       Value: false
-    - Alpha: 0.5
+    - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
       Enabled: true
@@ -162,8 +162,16 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_arm_q1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_arm_q2_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -173,7 +181,22 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        right_arm_q1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_q2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        torso_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -349,25 +372,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 12.3135719
+      Distance: 9.29747581
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.04489517
-        Y: -1.00844681
-        Z: -0.0916089416
+        X: 0.135978222
+        Y: -0.292229891
+        Z: 0.888821781
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.50979578
+      Pitch: 1.48993051
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.8185854
+      Yaw: 0.0549816303
     Saved: ~
 Window Geometry:
   DisplayTopics:
