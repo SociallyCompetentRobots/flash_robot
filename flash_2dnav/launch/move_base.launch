@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
-  <arg name="map"                 default="$(find flash_maps)/config/lab_map_tight.yaml"/>
-  <arg name="control_frequency"   default="20"/>
-  <arg name="planner"             default="dwa"/> <!-- One of either base or dwa -->
+  <arg name="map"               default="$(find flash_maps)/config/lab_map.yaml"/>
+  <arg name="control_frequency" default="20"/>
+  <arg name="planner"           default="dwa"/> <!-- One of either base or dwa -->
  
   <!-- Run the robot configuration -->
   <include file="$(find flash_2dnav)/launch/flash_configuration.launch"/>
