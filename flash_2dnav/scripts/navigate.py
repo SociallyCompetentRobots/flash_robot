@@ -8,6 +8,8 @@ import tf.transformations as tr
 from move_base_msgs.msg import MoveBaseAction
 from move_base_msgs.msg import MoveBaseGoal
 from geometry_msgs.msg import Quaternion
+from std_msgs.msg import Bool
+from std_srvs.srv import Empty, EmptyRequest
 
 from flash_behaviors.msg import ActAction
 from flash_behaviors.msg import ActGoal
@@ -20,16 +22,31 @@ if __name__ == '__main__':
 
     rospy.init_node('move_base_client_node')
 
+    # Process status.
+    status = False
+
+    # Subscriber callback.
+    def process_cb(data):
+        global status
+        status = data.data
+
+    # Process signal subscriber.
+    process_sub = rospy.Subscriber('/system/ps/psychopy', Bool, process_cb)
+
     # Speech publisher.
     speak_pub = rospy.Publisher('/flash_robot/say', Speech, queue_size=1)
 
+    # Action Clients.
     move_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
     act_client = actionlib.SimpleActionClient('action_server', ActAction)
 
     rospy.loginfo("Waiting for servers...")
     move_client.wait_for_server()
     act_client.wait_for_server()
+    rospy.wait_for_service('/move_base/clear_costmaps')
     rospy.loginfo("Servers found!")
+
+    clear_costmaps = rospy.ServiceProxy('/move_base/clear_costmaps', Empty)
 
     # Action goal.
     act_goal = ActGoal()
@@ -86,7 +103,7 @@ if __name__ == '__main__':
 
     # Node sleeps for 5 minutes.
     # rospy.sleep(300.)
-    rospy.sleep(10.)
+    # rospy.sleep(10.)
 
     # Stop head behavior.
     stop_head()
@@ -116,47 +133,47 @@ if __name__ == '__main__':
     move_goal.target_pose.header.frame_id = 'map'
 
     # Home.
-    move_goal.target_pose.header.stamp = rospy.Time.now()
+    # move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x = 0.0
-    move_goal.target_pose.pose.position.y = 0.0
-    move_goal.target_pose.pose.position.z = 0.0
+    # move_goal.target_pose.pose.position.x = 0.0
+    # move_goal.target_pose.pose.position.y = 0.0
+    # move_goal.target_pose.pose.position.z = 0.0
 
-    move_goal.target_pose.pose.orientation = Quaternion(0., 0., 0., 1.)
+    # move_goal.target_pose.pose.orientation = Quaternion(0., 0., 0., 1.)
 
-    rospy.loginfo("Sending waypoint 1...")
+    # rospy.loginfo("Sending waypoint 1...")
 
-    move_client.send_goal(move_goal)
-    move_client.wait_for_result()
+    # move_client.send_goal(move_goal)
+    # move_client.wait_for_result()
 
-    # Stop the look alive behavior (after turn in place motion).
-    stop_head() 
-    # Start blinking behavior (during the forward motion).
-    act_blinking()
+    # # Stop the look alive behavior (after turn in place motion).
+    # stop_head() 
+    # # Start blinking behavior (during the forward motion).
+    # act_blinking()
 
-    # Move forward 1.2 meters.
-    move_goal.target_pose.header.stamp = rospy.Time.now()
+    # # Move forward 1.6 meters.
+    # move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x = 1.2
-    move_goal.target_pose.pose.position.y = 0.0
-    move_goal.target_pose.pose.position.z = 0.0
+    # move_goal.target_pose.pose.position.x = 1.6
+    # move_goal.target_pose.pose.position.y = 0.0
+    # move_goal.target_pose.pose.position.z = 0.0
 
-    move_goal.target_pose.pose.orientation = Quaternion(0., 0., 0., 1.)
+    # move_goal.target_pose.pose.orientation = Quaternion(0., 0., 0., 1.)
 
-    rospy.loginfo("Sending waypoint 2...")
+    # rospy.loginfo("Sending waypoint 2...")
 
-    move_client.send_goal(move_goal)
-    move_client.wait_for_result()
+    # move_client.send_goal(move_goal)
+    # move_client.wait_for_result()
 
-    # Stop the look blinking behavior.
-    stop_head()
-    # Start the look alive behavior (during the turn in place motion).
-    act_alive()
+    # # Stop the look blinking behavior.
+    # stop_head()
+    # # Start the look alive behavior (during the turn in place motion).
+    # act_alive()
 
     # Rotate 90 degrees right.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x = 1.2
+    move_goal.target_pose.pose.position.x = 1.6
     move_goal.target_pose.pose.position.y = 0.0
     move_goal.target_pose.pose.position.z = 0.0
 
@@ -172,14 +189,15 @@ if __name__ == '__main__':
     # Start blinking behavior (during the forward motion).
     act_blinking()
 
-    # Move forward 1.2 meters and rotate approximately -80 degrees.
+    # Move forward 1.6 meters and rotate approximately -80 degrees.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x =  1.2
-    move_goal.target_pose.pose.position.y = -1.8
+    move_goal.target_pose.pose.position.x =  1.6
+    move_goal.target_pose.pose.position.y = -2.0
     move_goal.target_pose.pose.position.z =  0.0
 
-    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -11*3.14/25))
+    # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -11*3.14/25))
+    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -1.1))
 
     rospy.loginfo("Sending waypoint 4...")
 
@@ -219,12 +237,27 @@ if __name__ == '__main__':
     act_client.wait_for_result()
 
     # Speak.
-    speech.text = 'Could you open the. word game on the desktop please?'
+    speech.text = 'Could you open the word task on the desktop please?'
     speech.intensity = 2
 
     speak_pub.publish(speech)
 
     rospy.sleep(2.)
+
+    # Wait until the user has opened the word task.
+    counter = 1
+    while not (status or rospy.is_shutdown()):
+        rospy.Rate(10).sleep()
+
+        # Reiterate request.
+        if not (counter % 100):
+            speech.text = 'Could you open the word task on the desktop please?'
+            speech.intensity = 2
+
+            speak_pub.publish(speech)
+
+        counter += 1
+    # rospy.sleep(2.)
 
     speech.text = 'Thank you.'
     speech.intensity = 2
@@ -251,51 +284,54 @@ if __name__ == '__main__':
     act_client.send_goal(act_goal)
     act_client.wait_for_result()
 
+    # Clear costmaps.
+    clear_costmaps(EmptyRequest())
+
     ###########################################################################
     # Waypoints definition.
     ###########################################################################
-    # Turn 180 degrees.
-    move_goal.target_pose.header.stamp = rospy.Time.now()
+    # # Turn 180 degrees.
+    # move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x =  1.2
-    move_goal.target_pose.pose.position.y = -1.8
-    move_goal.target_pose.pose.position.z =  0.0
+    # move_goal.target_pose.pose.position.x =  1.6
+    # move_goal.target_pose.pose.position.y = -2.0
+    # move_goal.target_pose.pose.position.z =  0.0
 
-    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14*3/2))
+    # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14*3/2))
 
-    rospy.loginfo("Sending waypoint 5...")
+    # rospy.loginfo("Sending waypoint 5...")
 
-    move_client.send_goal(move_goal)
-    move_client.wait_for_result()
+    # move_client.send_goal(move_goal)
+    # move_client.wait_for_result()
 
-    # Stop the look alive behavior (after turn in place motion).
-    stop_head()
-    # Start blinking behavior (during the forward motion).
-    act_blinking()
+    # # Stop the look alive behavior (after turn in place motion).
+    # stop_head()
+    # # Start blinking behavior (during the forward motion).
+    # act_blinking()
 
-    # Go back 1.2 meters.
-    move_goal.target_pose.header.stamp = rospy.Time.now()
+    # # Go back 1.6 meters.
+    # move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x = 1.2
-    move_goal.target_pose.pose.position.y = 0.0
-    move_goal.target_pose.pose.position.z = 0.0
+    # move_goal.target_pose.pose.position.x = 1.6
+    # move_goal.target_pose.pose.position.y = 0.0
+    # move_goal.target_pose.pose.position.z = 0.0
 
-    move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14*3/2))
+    # move_goal.target_pose.pose.orientation = Quaternion(*tr.quaternion_from_euler(0.0, 0.0, -3.14*3/2))
 
-    rospy.loginfo("Sending waypoint 6...")
+    # rospy.loginfo("Sending waypoint 6...")
 
-    move_client.send_goal(move_goal)
-    move_client.wait_for_result()
+    # move_client.send_goal(move_goal)
+    # move_client.wait_for_result()
 
-    # Stop the look blinking behavior.
-    stop_head()
-    # Start the look alive behavior (during the turn in place motion).
-    act_alive()
+    # # Stop the look blinking behavior.
+    # stop_head()
+    # # Start the look alive behavior (during the turn in place motion).
+    # act_alive()
 
     # Turn 90 degrees left.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x = 1.2
+    move_goal.target_pose.pose.position.x = 1.6
     move_goal.target_pose.pose.position.y = 0.0
     move_goal.target_pose.pose.position.z = 0.0
 
@@ -311,10 +347,10 @@ if __name__ == '__main__':
     # Start blinking behavior (during the forward motion).
     act_blinking()
 
-    # Go back 1.2 meters.
+    # Go back 1.6 meters.
     move_goal.target_pose.header.stamp = rospy.Time.now()
 
-    move_goal.target_pose.pose.position.x = 0.0
+    move_goal.target_pose.pose.position.x = 0.2
     move_goal.target_pose.pose.position.y = 0.0
     move_goal.target_pose.pose.position.z = 0.0
 
