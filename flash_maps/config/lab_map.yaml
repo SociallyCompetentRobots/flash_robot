@@ -1,4 +1,4 @@
-image: lab_map.pgm
+image: /home/jose-xenial/Software/ros/kinetic/socoro_ws/src/flash_robot/flash_maps/config/lab_map.pgm
 resolution: 0.050000
 origin: [-100.000000, -100.000000, 0.000000]
 negate: 0
