@@ -27,7 +27,7 @@ teleop:
         axis: 3
         target: angular.y
         scale: 0.1
-  behave:
+  behaveA:
     type: topic
     message_type: std_msgs/Int16
     topic_name: flash_robot/behave
@@ -36,16 +36,28 @@ teleop:
       -
         target: data
         value: 1    
+  behaveB:
+    type: topic
+    message_type: std_msgs/Int16
+    topic_name: flash_robot/behave
     buttons: [1]
     message_value:
       -
         target: data
         value: 2    
+  behaveX:
+    type: topic
+    message_type: std_msgs/Int16
+    topic_name: flash_robot/behave
     buttons: [2]
     message_value:
       -
         target: data
         value: 3    
+  behaveY:
+    type: topic
+    message_type: std_msgs/Int16
+    topic_name: flash_robot/behave
     buttons: [3]
     message_value:
       -
