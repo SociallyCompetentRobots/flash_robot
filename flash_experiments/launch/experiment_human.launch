@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- sound_play node -->
+  <node pkg="sound_play"
+        name="soundplay_node"
+        type="soundplay_node.py"
+        output="screen"/>
+  
+  <!-- signal acknowledgment node -->
+  <node pkg="flash_experiments"
+        name="signal_acknowledgment_node"
+        type="signal_ack.py"
+        output="screen"/>
+
+</launch>
