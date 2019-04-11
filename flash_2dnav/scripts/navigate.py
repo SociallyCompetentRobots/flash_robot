@@ -242,6 +242,9 @@ if __name__ == '__main__':
 
     speak_pub.publish(speech)
 
+    # Initialize timer to log how much time the user takes to respond to the request.
+    interruption_start = rospy.get_time()
+
     rospy.sleep(2.)
 
     # Wait until the user has opened the word task.
@@ -257,7 +260,10 @@ if __name__ == '__main__':
             speak_pub.publish(speech)
 
         counter += 1
-    # rospy.sleep(2.)
+    
+    # Log reaction time.
+    interruption_end = rospy.get_time() - interruption_start
+    rospy.loginfo("Reaction time: %s seconds", str(interruption_end))
 
     speech.text = 'Thank you.'
     speech.intensity = 2
