@@ -11,13 +11,14 @@ ROS integration for the [FLASH MK II](https://www.edinburgh-robotics.org/equipme
   - [Python Version](#python-version)
   - [Odometry](#odometry)
   - [Battery Level in RViz](#battery-level-in-rviz)
-- [Building the Package](#building-the-package)
+- [Building the Stack](#building-the-stack)
 - [Usage](#usage)
   - [flash_2dnav](#flash_2dnav)
   - [flash_behaviors](#flash_behaviors)
   - [flash_bringup](#flash_bringup)
   - [flash_controller](#flash_controller)
   - [flash_description](#flash_description)
+  - [flash_experiments](#flash_experiments)
   - [flash_maps](#flash_maps)
   - [flash_odom](#flash_odom)
   - [flash_robot](#flash_robot)
@@ -33,7 +34,7 @@ The full stack has only been tested on Ubuntu 16.04 and ROS Kinetic!
 
 Most of the code should be compatible with Python3. The only exception is the navigation.py script which depends on the tf package. If you want to make it compatible with Python3, then you should also build tf with Python3 (see this [thread](https://github.com/ros/geometry2/issues/259)).
 
-In order to install the Python3 required dependencies, we recommend creating a virtual environment and using the provided `requirements.txt` file (see [Building the Package](#building-the-package)).
+In order to install the Python3 required dependencies, we recommend creating a virtual environment and using the provided `requirements.txt` file (see [Building the Stack](#building-the-stack)).
 
 ### Odometry
 
@@ -59,7 +60,7 @@ cd ../..
 catkin_make
 ```
 
-## Building the Package
+## Building the Stack
 
 In the directory where you want to create your Python3 virtual environment do:
 
@@ -94,6 +95,7 @@ kinetic_ws/
       flash_bringup/
       flash_controller/
       flash_description/
+      flash_experiments/
       flash_maps/
       flash_odom/
       flash_robot/
@@ -150,6 +152,14 @@ This package contains all the interfaces between ROS and URBI and the nodes that
 ### flash_description
 
 This package contains description files for the flash robot. At the moment, these are dummy files mainly for visualization in RViz.
+
+### flash_experiments
+
+This package contains code for running the experiment for the human condition. In summary, there is a launch file called `experiment_human.launch` that runs a node that plays sounds and a node that listens for the psychopy process signals and sends a request to the sound playing node when the sugnal arrives:
+
+```
+roslaunch flash_experiments experiment_human.launch
+```
 
 ### flash_maps
 
