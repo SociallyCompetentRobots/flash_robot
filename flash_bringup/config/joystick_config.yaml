@@ -31,36 +31,63 @@ teleop:
     type: topic
     message_type: std_msgs/Int16
     topic_name: flash_robot/behave
-    buttons: [0]
+    deadman_buttons: [0]
     message_value:
       -
         target: data
-        value: 1    
+        value: 0
   behaveB:
     type: topic
     message_type: std_msgs/Int16
     topic_name: flash_robot/behave
-    buttons: [1]
+    deadman_buttons: [1]
     message_value:
       -
         target: data
-        value: 2    
+        value: 1
   behaveX:
     type: topic
     message_type: std_msgs/Int16
     topic_name: flash_robot/behave
-    buttons: [2]
+    deadman_buttons: [2]
     message_value:
       -
         target: data
-        value: 3    
+        value: 2
   behaveY:
     type: topic
     message_type: std_msgs/Int16
     topic_name: flash_robot/behave
-    buttons: [3]
+    deadman_buttons: [3]
     message_value:
       -
         target: data
-        value: 4    
-        
+        value: 3
+  behaveRB:
+    type: topic
+    message_type: std_msgs/Int16
+    topic_name: flash_robot/behave
+    deadman_buttons: [6]
+    message_value:
+      -
+        target: data
+        value: 6
+  behaveStart:
+    type: topic
+    message_type: std_msgs/Int16
+    topic_name: flash_robot/behave
+    deadman_buttons: [5]
+    message_value:
+      -
+        target: data
+        value: 5
+  behaveBack:
+    type: topic
+    message_type: std_msgs/Int16
+    topic_name: flash_robot/behave
+    deadman_buttons: [7]
+    message_value:
+      -
+        target: data
+        value: 7
+
