@@ -8,7 +8,7 @@ import numpy as np
 import rospy
 
 from geometry_msgs.msg      import Twist
-from std_msgs.msg           import Float32, Int16MultiArray, Int16
+from std_msgs.msg           import Float32, Int16MultiArray, Int16, String
 from sensor_msgs.msg        import Image
 
 from flash_behaviors.msg    import Speech
@@ -21,6 +21,7 @@ class FlashNode:
 
         
     PUBLISHER_RATE  = 30
+    EMOTIONS        = ['Happy', 'Surprise', 'Anger', 'Fear', 'Disgust', 'Sad', 'Yawn']
 
     
     def __init__(self):
@@ -31,6 +32,8 @@ class FlashNode:
         self.sub_cmd_vel   = rospy.Subscriber('/flash_robot/cmd_vel',     Twist,     self.cmdVelCallback)
         self.sub_behave    = rospy.Subscriber('/flash_robot/behave',      Int16,     self.behaveCallback)
         self.sub_speech    = rospy.Subscriber('/flash_robot/say',         Speech,    self.speechCallback)
+        self.sub_emotion   = rospy.Subscriber('/flash_robot/emotion',     String,    self.emotionCallback)
+
 
         # startup FLASH
         self.flash         = Flash()
@@ -67,6 +70,11 @@ class FlashNode:
             self.flash.exp('Fear')
             self.flash.say('If I am bored I can get very sleepy')
             self.flash.exp('Yawn')
+
+
+    def emotionCallback(self, msg):
+        if msg.data and msg.data in self.EMOTIONS:
+            self.flash.exp(msg.data)
 
 
     def update(self):
