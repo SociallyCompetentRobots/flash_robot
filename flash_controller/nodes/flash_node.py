@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import os.path as op
 from threading import Thread, Event
 import time
 
@@ -14,6 +14,10 @@ from sensor_msgs.msg        import Image
 from flash_behaviors.msg    import Speech
 
 from flash_controller.flash import Flash
+
+fp 	= op.realpath(__file__)
+fp 	= op.split(op.split(fp)[0])[0]
+fp	= op.join(fp, 'src', 'urbi')
 
 
 class FlashNode:
@@ -42,8 +46,8 @@ class FlashNode:
         self.cmd_vel_flag  = False
 
         # load expressions        
-        with open('../src/urbi/expressions.u', 'r') as f:
-            flash.uw.send(f.read())
+        with open(op.join(fp, 'expressions.u'), 'r') as f:
+            self.flash.uw.send(f.read())
 
 
     def speechCallback(self, msg):
@@ -77,7 +81,7 @@ class FlashNode:
 
         # Button A
         elif msg.data == 0:
-            pass
+            print(self.flash.uw.send('robot.competency.MyPositiveExpressions_1(2)'))
 
         # Button B
         elif msg.data == 1:
