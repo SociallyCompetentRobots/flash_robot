@@ -1,0 +1,115 @@
+/*
+* 
+*   EMYS competency manager file.
+*   Author: Meyii
+*/	 
+ 
+do(Global) {
+
+  if (!robot.hasLocalSlot("control")) robot.addComponent("control");  
+
+   
+  /////////////////////////////////////////////////////////
+  //	HERE ADD YOUR FUNCTIONS THAT YOU DECLARE BELOW
+  /////////////////////////////////////////////////////////
+     
+  do (robot.control) {
+  
+  	function idle()			{call.b_idle();};
+  	function go_idle_pose	{call.b_go_idle_pose();};
+    function button_a() 	{call.b_button_a();};
+    function button_b() 	{call.b_button_b();};
+    function button_x() 	{call.b_button_x();};
+    function button_y() 	{call.b_button_y();};
+    function button_rb() 	{call.b_button_rb();};
+    function button_back() 	{call.b_button_back();};
+    function button_start() {call.b_button_start();};
+
+  };
+
+  /////////////////////////////////////////////////////////
+  //	FUNCTIONS DECLARATIONS
+  /////////////////////////////////////////////////////////
+
+  function b_idle(){
+  	if (!hasSlot("idleTag")) var Global.idleTag = Tag.new() else {idleTag.unfreeze | idleTag.stop;}; 
+	idleTag:detach(
+		{
+  			robot.body.neck.head.ActBlinking(10, 0.7),
+  			robot.body.neck.head.ActAround(5, 3, 0),
+		})
+  };
+  
+  function b_go_idle_pose(){
+  	robot.body.arm.hand.MoveOrientation(2, 0, 0) 	&
+  	robot.body.arm.hand.MoveClose(4, 2)				&
+  	robot.body.neck.head.BehaveNormal(2)			&
+  	robot.body.arm.MoveCenterDown(3);
+  	robot.control.idle();
+  };
+
+
+  function b_button_a(){
+  	idleTag.stop;
+  	robot.body.neck.head.BehaveNormal(1);
+
+  	robot.competency.MyNegativeExpressions_3(2) 	&
+  	robot.body.arm.MoveCenterUp(3);
+
+	robot.control.go_idle_pose();
+  }; 
+
+  function b_button_b(){   
+  	h_tagg_neck.stop;
+  	robot.body.neck.head.BehaveNormal(1);
+
+	robot.body.arm.hand.MoveOrientation(2, 0, 0)	&
+	robot.body.arm.hand.MoveOpen(2)					&
+	robot.body.arm.MoveSideSide(2)					&
+  	robot.competency.MyNegativeExpressions_3(2);
+
+	robot.control.go_idle_pose();
+  }; 
+
+  function b_button_x(){   
+  	h_tagg_neck.stop;
+  	robot.body.neck.head.BehaveNormal(1);
+
+  	robot.competency.MyPositiveExpressions_3(2) 	&
+  	robot.body.arm.MoveCenterUp(3);
+
+	robot.control.go_idle_pose();
+  }; 
+
+  function b_button_y(){   
+  	h_tagg_neck.stop;
+  	robot.body.neck.head.BehaveNormal(1);
+
+	robot.body.arm.hand.MoveOrientation(2, 0, 0)	&
+	robot.body.arm.hand.MoveOpen(2)					&
+	robot.body.arm.MoveSideSide(2)					&
+  	robot.competency.MyPositiveExpressions_3(2);
+
+	robot.control.go_idle_pose();
+
+  }; 
+
+  function b_button_rb(){
+  	h_tagg_neck.stop;
+  	robot.body.neck.head.BehaveNormal(1);
+
+	robot.body.neck.head.ActBlinking(2, 4),
+	sleep(8);
+	h_tagg_eyes.stop;
+  	robot.competency.MyNeutral(2);
+
+	robot.control.go_idle_pose();
+  };
+
+  function b_button_back(){}; 
+
+  function b_button_start(){
+	robot.control.go_idle_pose();
+  }; 
+
+};
