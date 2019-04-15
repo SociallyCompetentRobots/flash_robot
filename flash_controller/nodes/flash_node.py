@@ -21,7 +21,7 @@ class FlashNode:
 
         
     PUBLISHER_RATE  = 30
-    EMOTIONS        = ['Happy', 'Surprise', 'Anger', 'Fear', 'Disgust', 'Sad', 'Yawn']
+    EMOTIONS        = ['Happy', 'Surprise', 'Angry', 'Fear', 'Disgust', 'Sad', 'Yawn']
 
     
     def __init__(self):
@@ -41,6 +41,10 @@ class FlashNode:
         self.cmd_vel_ts    = time.time()
         self.cmd_vel_flag  = False
 
+        # load expressions        
+        with open('../src/urbi/expressions.u', 'r') as f:
+            flash.uw.send(f.read())
+
 
     def speechCallback(self, msg):
         self.flash.say(msg.text, msg.intensity)
@@ -55,7 +59,7 @@ class FlashNode:
 
 
     def behaveCallback(self, msg):
-        if msg.data == 1:
+        if msg.data == 7:
             self.flash.say('Hello. My name is Alyx. Nice to meet you. Welcome to the HRI Laboratory.')
             self.flash.say('You might have noticed that I have a very expressive face.')
             self.flash.say('I can get angry.')
@@ -70,6 +74,26 @@ class FlashNode:
             self.flash.exp('Fear')
             self.flash.say('If I am bored I can get very sleepy')
             self.flash.exp('Yawn')
+
+        # Button A
+        elif msg.data == 0:
+            pass
+
+        # Button B
+        elif msg.data == 1:
+            pass
+
+        # Button X
+        elif msg.data == 2:
+            pass
+
+        # Button Y
+        elif msg.data == 3:
+            pass
+
+        # Button RB
+        elif msg.data == 5:
+            pass
 
 
     def emotionCallback(self, msg):

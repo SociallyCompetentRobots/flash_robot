@@ -1,0 +1,207 @@
+/*
+* 
+*   EMYS competency manager file.
+*   Author: Meyii
+*/	 
+ 
+do(Global) {
+
+  if (!robot.hasLocalSlot("competency")) robot.addComponent("competency");
+  
+   
+  /////////////////////////////////////////////////////////
+  //	HERE ADD YOUR FUNCTIONS THAT YOU DECLARE BELOW
+  /////////////////////////////////////////////////////////
+     
+  do (robot.competency) {
+  
+    function MySmileExpression(intensity, time) 		{call.b_mySmileExpression(intensity, time);};
+    function MyPositiveExpressions(time) 				{call.b_myPositiveExpressions(time);};
+    function MyNegativeExpressions(time) 				{call.b_myNegativeExpressions(time);};
+    function MyPositiveExpressions_1(time) 				{call.b_myPositiveExpressions_1(time);};
+    function MyPositiveExpressions_2(time) 				{call.b_myPositiveExpressions_2(time);};
+    function MyPositiveExpressions_3(time) 				{call.b_myPositiveExpressions_3(time);};
+    function MyPositiveExpressions_4(time) 				{call.b_myPositiveExpressions_4(time);};
+    function MyNegativeExpressions_1(time) 				{call.b_myNegativeExpressions_1(time);};
+    function MyNegativeExpressions_2(time) 				{call.b_myNegativeExpressions_2(time);};
+    function MyNegativeExpressions_3(time) 				{call.b_myNegativeExpressions_3(time);};
+    function MyNegativeExpressions_4(time) 				{call.b_myNegativeExpressions_4(time);};
+    function MyNeutral(time) 							{call.b_myNeutral(time);};
+    function MyAU1(time) 								{call.b_myAU1(time);};
+    function MyAU2(time) 								{call.b_myAU2(time);};
+    function MyAU4(time) 								{call.b_myAU4(time);};
+    function MyAU5(time) 								{call.b_myAU5(time);};
+    function MyAU43(time) 								{call.b_myAU43(time);};
+    function MyAU46(time) 								{call.b_myAU46(time);};
+    function MyAU16(time) 								{call.b_myAU16(time);};
+    function MyAU17(time) 								{call.b_myAU17(time);};
+    function MyAU25(time) 								{call.b_myAU25(time);};
+    function MyAU26(time) 								{call.b_myAU26(time);};
+    function MyAU51(time) 								{call.b_myAU51(time);};
+    function MyAU53(time) 								{call.b_myAU53(time);};
+    function MyAU54(time) 								{call.b_myAU54(time);};
+    function MyExperiment(time)                         {call.b_myExperiment(time);};
+    function InitialiseVideoData()                      {call.b_initialiseVideoData();};
+    function RandomEmotionGeneration(choice,_fruit_ch)  {call.b_randomEmotionGeneration(choice,_fruit_ch);};
+    function Sentences_Between_Expressions(option)      {call.b_sentences_between_expressions(option);};
+  };
+
+  /////////////////////////////////////////////////////////
+  //	FUNCTIONS DECLARATIONS
+  /////////////////////////////////////////////////////////
+  
+  function b_myNeutral(time){
+    /*robot.body.neck.head.eye[left].brow.Move(0, time) &
+    robot.body.neck.head.eye[right].brow.Move(0, time);
+    robot.body.neck.head.eye[right].trans.Move(0, time)&
+    robot.body.neck.head.eye[left].trans.Move(0, time);
+    robot.body.neck.head.disc[down].Move(0,time);
+    robot.body.neck.head.yaw.Move(0, time);
+    robot.body.neck.head.pitch.Move(0, time);*/
+    robot.body.neck.head.BehaveNormal(2);
+  }; 
+  // Eyebrows
+  function b_myAU1(time){   
+    robot.body.neck.head.eye[left].brow.Move(25, time) &
+    robot.body.neck.head.eye[right].brow.Move(-25, time);
+  }; 
+  function b_myAU2(time){  
+    robot.body.neck.head.eye[left].brow.Move(-20, time) &
+    robot.body.neck.head.eye[right].brow.Move(20, time);
+  }; 
+  function b_myAU4(time){
+    robot.body.neck.head.eye[left].lid.Move(20, time) &
+    robot.body.neck.head.eye[right].lid.Move(20, time);
+  }; 
+  // Eyelids
+  function b_myAU5(time){
+    robot.body.neck.head.eye[left].lid.Move(-50, time) &
+    robot.body.neck.head.eye[right].lid.Move(-50, time)&
+    robot.body.neck.head.disc[up].Move(5,time);
+  }; 
+  function b_myAU43(time){    
+    robot.body.neck.head.MoveEyeClose(10, time);
+  }; 
+  function b_myAU46(time){    
+    robot.body.neck.head.eye[right].lid.Move(50, time);
+  };
+  // Lower disk
+  function b_myAU16(time){
+    robot.body.neck.head.disc[down].Move(5, time);
+  }; 
+  function b_myAU17(time){
+    robot.body.neck.head.disc[down].Move(15, time);
+  }; 
+  function b_myAU25(time){
+    robot.body.neck.head.disc[down].Move(-5, time);
+  }; 
+  function b_myAU26(time){
+    robot.body.neck.head.disc[down].Move(-15, time);
+  }; 
+  // Neck pan
+  function b_myAU51(time){
+    robot.body.neck.head.yaw.Move(20, time);
+  }; 
+  // Head pitch
+  function b_myAU53(time){
+    robot.body.neck.head.pitch.Move(20, time);
+  }; 
+  function b_myAU54(time){
+    robot.body.neck.head.pitch.Move(-20, time);
+  }; 
+  
+  
+  function b_myPositiveExpressions(time){
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU2(time) &
+    b_myAU25(time);
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU53(time) &
+    b_myAU26(time);
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU5(time) &
+    b_myAU26(time);
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU46(time) &
+    b_myAU51(time);
+    robot.body.neck.head.BehaveNormal(time);
+  };
+  
+  function b_myNegativeExpressions(time){
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU1(time) &
+    b_myAU16(time);
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU17(time) &
+    b_myAU54(time);
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU43(time) &
+    b_myAU54(time);
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU4(time) &
+    b_myAU17(time);
+    robot.body.neck.head.BehaveNormal(time);
+  };
+  
+  function b_myPositiveExpressions_1(time){
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU2(time) &
+    b_myAU25(time);
+    robot.body.neck.head.BehaveNormal(time);
+   };
+   
+   function b_myPositiveExpressions_2(time){
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU53(time) &
+    b_myAU26(time);
+    robot.body.neck.head.BehaveNormal(time);
+   };
+   
+   function b_myPositiveExpressions_3(time){
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU5(time) &
+    b_myAU26(time);
+    robot.body.neck.head.BehaveNormal(time);
+   };
+   
+   function b_myPositiveExpressions_4(time){
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU46(time) &
+    b_myAU51(time);
+    robot.body.neck.head.BehaveNormal(time);
+   };
+   
+   function b_myNegativeExpressions_1(time){
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU1(time) &
+    b_myAU16(time);
+    robot.body.neck.head.BehaveNormal(time);
+    
+  };
+  
+  function b_myNegativeExpressions_2(time){
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU17(time) &
+    b_myAU54(time);
+    robot.body.neck.head.BehaveNormal(time);
+    
+  };
+  
+  function b_myNegativeExpressions_3(time){
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU43(time) &
+    b_myAU54(time);
+    robot.body.neck.head.BehaveNormal(time);
+    
+  };
+  
+  function b_myNegativeExpressions_4(time){
+    robot.body.neck.head.BehaveNormal(time);
+    b_myAU4(time) &
+    b_myAU17(time);
+    robot.body.neck.head.BehaveNormal(time);
+    
+  };
+   
+
+};
