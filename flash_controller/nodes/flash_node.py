@@ -49,6 +49,10 @@ class FlashNode:
         with open(op.join(fp, 'expressions.u'), 'r') as f:
             self.flash.uw.send(f.read())
 
+        # load controls
+        with open(op.join(fp, 'gamepad_control.u'), 'r') as f:
+            print(self.flash.uw.send(f.read()))
+
 
     def speechCallback(self, msg):
         self.flash.say(msg.text, msg.intensity)
@@ -63,7 +67,9 @@ class FlashNode:
 
 
     def behaveCallback(self, msg):
-        if msg.data == 7:
+
+	# Button Back
+        if msg.data == 6:
             self.flash.say('Hello. My name is Alyx. Nice to meet you. Welcome to the HRI Laboratory.')
             self.flash.say('You might have noticed that I have a very expressive face.')
             self.flash.say('I can get angry.')
@@ -81,23 +87,27 @@ class FlashNode:
 
         # Button A
         elif msg.data == 0:
-            print(self.flash.uw.send('robot.competency.MyPositiveExpressions_1(2)'))
+            print(self.flash.uw.send('robot.control.button_a()'))
 
         # Button B
         elif msg.data == 1:
-            pass
+            self.flash.uw.send('robot.control.button_b()')
 
         # Button X
         elif msg.data == 2:
-            pass
+            self.flash.uw.send('robot.control.button_x()')
 
         # Button Y
         elif msg.data == 3:
-            pass
+            print(self.flash.uw.send('robot.control.button_y()'))
 
         # Button RB
         elif msg.data == 5:
-            pass
+            self.flash.uw.send('robot.control.button_rb()')
+
+        # Button Start
+        elif msg.data == 7:
+            print(self.flash.uw.send('robot.control.button_start()'))
 
 
     def emotionCallback(self, msg):
