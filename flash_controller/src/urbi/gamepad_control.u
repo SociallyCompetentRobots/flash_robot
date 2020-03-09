@@ -53,8 +53,8 @@ do(Global) {
   	idleTag.stop;
   	robot.body.neck.head.BehaveNormal(1);
 
-  	robot.competency.MyNegativeExpressions_3(2) 	&
-  	robot.body.arm.MoveCenterUp(3);
+	robot.competency.MyNegativeGesture()			&
+  	robot.competency.MyNegativeExpressions_3(2);
 
 	robot.control.go_idle_pose();
   }; 
@@ -63,20 +63,18 @@ do(Global) {
   	h_tagg_neck.stop;
   	robot.body.neck.head.BehaveNormal(1);
 
-	robot.body.arm.hand.MoveOrientation(2, 0, 0)	&
-	robot.body.arm.hand.MoveOpen(2)					&
-	robot.body.arm.MoveSideSide(2)					&
+	robot.competency.MyPositiveGesture()			&
   	robot.competency.MyNegativeExpressions_3(2);
 
 	robot.control.go_idle_pose();
-  }; 
+  };
 
   function b_button_x(){   
   	h_tagg_neck.stop;
   	robot.body.neck.head.BehaveNormal(1);
 
-  	robot.competency.MyPositiveExpressions_3(2) 	&
-  	robot.body.arm.MoveCenterUp(3);
+	robot.competency.MyNegativeGesture()			&
+  	robot.competency.MyPositiveExpressions_3(2);
 
 	robot.control.go_idle_pose();
   }; 
@@ -85,9 +83,7 @@ do(Global) {
   	h_tagg_neck.stop;
   	robot.body.neck.head.BehaveNormal(1);
 
-	robot.body.arm.hand.MoveOrientation(2, 0, 0)	&
-	robot.body.arm.hand.MoveOpen(2)					&
-	robot.body.arm.MoveSideSide(2)					&
+	robot.competency.MyPositiveGesture()			&
   	robot.competency.MyPositiveExpressions_3(2);
 
 	robot.control.go_idle_pose();

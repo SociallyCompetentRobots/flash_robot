@@ -40,10 +40,9 @@ do(Global) {
     function MyAU51(time) 								{call.b_myAU51(time);};
     function MyAU53(time) 								{call.b_myAU53(time);};
     function MyAU54(time) 								{call.b_myAU54(time);};
-    function MyExperiment(time)                         {call.b_myExperiment(time);};
-    function InitialiseVideoData()                      {call.b_initialiseVideoData();};
-    function RandomEmotionGeneration(choice,_fruit_ch)  {call.b_randomEmotionGeneration(choice,_fruit_ch);};
-    function Sentences_Between_Expressions(option)      {call.b_sentences_between_expressions(option);};
+    function MyPositiveGesture()						{call.b_myPositiveGesture();};
+    function MyNegativeGesture()						{call.b_myNegativeGesture();};
+  
   };
 
   /////////////////////////////////////////////////////////
@@ -202,6 +201,16 @@ do(Global) {
     robot.body.neck.head.BehaveNormal(time);
     
   };
-   
+
+  
+  function b_myPositiveGesture() {
+	robot.body.arm.hand.MoveOrientation(2, 0, 0)	&
+	robot.body.arm.hand.MoveOpen(2)					&
+	robot.body.arm.MoveSideSide(2)					,
+  };
+
+  function b_myNegativeGesture() {
+  	robot.body.arm.MoveCenterUp(3);
+  };
 
 };
