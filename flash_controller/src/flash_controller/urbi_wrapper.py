@@ -13,6 +13,7 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 ch.setFormatter(formatter)
 LOG.addHandler(ch)
 
+
 class UrbiWrapper:
     """ The UrbiWrapper class provides a singleton to communicate with an URBI instance via telnet.
     
@@ -20,12 +21,13 @@ class UrbiWrapper:
     the singleton pattern implementation. But this might complicate the implementation of the users
     of this class.
     """
-    HOST  = '10.0.0.195'
-    PORT  = 54000
-    SLEEP = 0.05
-    WAIT  = 0.06
+    HOST    = '192.168.1.2'
+    PORT    = 54000
+    SLEEP   = 0.05
+    WAIT    = 0.06
+    TIMEOUT = 2
     
-    HEADER = """*** ********************************************************
+    HEADER  = """*** ********************************************************
 *** Urbi version 2.7.5 patch 0 revision 846b3de
 *** Copyright (C) 2004-2012 Gostai S.A.S.
 ***
@@ -53,20 +55,42 @@ class UrbiWrapper:
 #         if header is not UrbiWrapper.HEADER:
 #             raise RuntimeError('Retrieved URBI header is not correct got\n[%s]\n instead of\n[%s]' % (header, UrbiWrapper.HEADER))
 
+    def copy(self):
+        return UrbiWrapper(self.HOST, self. PORT)
+
+
+    @staticmethod
+    def ping(host, port):
+        socket.setdefaulttimeout(1)
+        ps = socket.socket()
+        try:
+            ps.connect((host, port))
+            ps.close()
+            return True
+        except:
+            LOG.debug('Ping failed')
+        return False
+
     
     @property
     def isConnected(self):
         return True
 
 
-    def read(self):
+    def read(self, timeout = TIMEOUT):
         
         result      = []
         timestamp   = 0.0
         last_line   = ''
-
+        self.tn.settimeout(timeout)
         while last_line != b'"EOF"':
-            data        = self.tn.recv(16*1024)
+
+            try:
+                data        = self.tn.recv(16*1024)
+            except:
+                LOG.warn('socket timeout!')
+                return b'', timestamp
+                
             for line in data.split(b'\n'):
                 if not line:
                     continue
@@ -85,10 +109,11 @@ class UrbiWrapper:
                 last_line += b' '.join(line[1:])
                 result.append(last_line)
 
+        self.tn.settimeout(self.WAIT)
         return b'\n'.join(result[:-1]), timestamp
 
     
-    def send(self, cmd):
+    def send(self, cmd, timeout = TIMEOUT):
         """ Sends a URBI command to the server. 
         
         @param: cmd - 
@@ -105,12 +130,18 @@ class UrbiWrapper:
         self.tn.sendall(cmd.encode('ascii'))
 
         # read all within a time frame
-        result, timestamp = self.read()
+        result, timestamp = self.read(timeout)
 
         LOG.debug('received: %s' % result)
         
         return result, timestamp
 
 
+    def close(self):
+        if self.tn:
+            self.tn.close()
+            self.tn = None
+
+
     def __del__(self):
-        self.tn.close()
+        self.close()
