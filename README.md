@@ -38,11 +38,11 @@ In order to install the Python3 required dependencies, we recommend creating a v
 
 ### Odometry
 
-The robot odometry is computed based on planar laser scans using the [rf2o_laser_odometry](https://github.com/MAPIRlab/rf2o_laser_odometry) package. The official package has been released only for ROS Indigo, hence you will need to clone the repository and build it within your ROS workspace (use provided fork):
+The robot odometry is computed based on planar laser scans using the [rf2o_laser_odometry](https://github.com/MAPIRlab/rf2o_laser_odometry) package. The official package has been released only for ROS Indigo, hence you will need to clone the repository and build it within your ROS workspace:
 
 ```sh
 cd <YOUR_PATH>/kinetic_ws/src
-git clone https://github.com/joselpart/rf2o_laser_odometry.git
+git clone https://github.com/MAPIRlab/rf2o_laser_odometry.git
 cd ..
 catkin_make
 ```
