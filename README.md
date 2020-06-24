@@ -155,11 +155,13 @@ This package contains description files for the flash robot. At the moment, thes
 
 ### flash_experiments
 
-This package contains code for running the experiment for the human condition. In summary, there is a launch file called `experiment_human.launch` that runs a node that plays sounds and a node that listens for the psychopy process signals and sends a request to the sound playing node when the sugnal arrives:
+This package contains code for running several experiments. For instance, there is a launch file called `experiment_human.launch` that corresponds to the "human condition" in the interruption experiment. Concretely, it runs a node that plays sounds and a node that listens for the psychopy process signals and sends a request to the sound playing node when the signal arrives:
 
 ```
 roslaunch flash_experiments experiment_human.launch
 ```
+
+There is also a script to run a scheduling task. In order to run this script, you will need access to the [scheduling_task](https://github.com/SociallyCompetentRobots/scheduling_task) repository, which is currently private. In order to use it, you would need to be a member of the [SociallyCompetentRobots](https://github.com/SociallyCompetentRobots) organization.
 
 ### flash_maps
 
